@@ -1,0 +1,973 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>Cal's Perfection Aquatics — Aquarium Cleaning in Spokane</title>
+<meta name="description" content="Expert aquarium, pond, and water feature cleaning in Spokane and the greater Spokane area.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+  /* ============================================================
+     EDIT ME — business details, contact info, and the discount
+     code all live in the CONFIG object near the top of the
+     <script> at the bottom of this file. Nothing else needs
+     touching to update that info.
+     ============================================================ */
+
+  :root{
+    --water-deep:   #071e28;
+    --water-mid:    #0f3a45;
+    --water-shine:  #1f6472;
+    --panel-a:      #0a2733;
+    --panel-b:      #0d3140;
+    --glass-fill:   rgba(200,240,245,0.07);
+    --glass-border: rgba(191,234,240,0.35);
+    --foam:         #eaf7f5;
+    --foam-dim:     rgba(234,247,245,0.72);
+    --algae:        #7cb342;
+    --coral:        #ff8a5b;
+    --coral-dark:   #e06a3c;
+    --gold:         #e8b84b;
+    --focus-ring:   #7ee0d1;
+  }
+
+  *{ box-sizing:border-box; }
+  html{ scroll-behavior:smooth; }
+  body{
+    margin:0;
+    background:var(--water-deep);
+    font-family:'Inter', sans-serif;
+    color:var(--foam);
+    -webkit-tap-highlight-color:transparent;
+  }
+  ::selection{ background:var(--focus-ring); color:#052024; }
+
+  a{ color:inherit; }
+
+  h1,h2,h3{
+    font-family:'Baloo 2', sans-serif;
+    font-weight:800;
+    margin:0;
+  }
+
+  section{ position:relative; padding:90px 24px; }
+  .wrap{ max-width:960px; margin:0 auto; }
+
+  /* ---------- nav ---------- */
+  #siteNav{
+    position:fixed; top:0; left:0; right:0;
+    display:flex; align-items:center; justify-content:space-between;
+    padding:16px 24px;
+    z-index:20;
+    background:linear-gradient(180deg, rgba(4,15,20,0.75), rgba(4,15,20,0));
+    transition:background .3s ease;
+  }
+  #siteNav.solid{ background:rgba(6,20,26,0.88); backdrop-filter:blur(8px); box-shadow:0 1px 0 var(--glass-border); }
+  .nav-brand{
+    font-family:'Baloo 2', sans-serif;
+    font-weight:700;
+    font-size:16px;
+    text-decoration:none;
+  }
+  .nav-links{ display:flex; align-items:center; gap:22px; list-style:none; margin:0; padding:0; }
+  .nav-links a{
+    text-decoration:none;
+    font-size:14.5px;
+    color:var(--foam-dim);
+  }
+  .nav-links a:hover{ color:var(--foam); }
+  .nav-cta{
+    background:var(--coral);
+    color:#1a0f0a !important;
+    padding:8px 16px;
+    border-radius:20px;
+    font-weight:600;
+  }
+  .nav-toggle{ display:none; }
+
+  /* ---------- hero ---------- */
+  #hero{
+    height:100svh;
+    min-height:560px;
+    padding:0;
+    overflow:hidden;
+  }
+  #heroCanvas{ position:absolute; inset:0; width:100%; height:100%; display:block; }
+  .hero-inner{
+    position:relative;
+    height:100%;
+    display:flex;
+    align-items:center;
+    padding:0 24px;
+  }
+  .hero-panel{
+    max-width:480px;
+    margin-left:min(6vw, 70px);
+    padding:34px 34px 30px;
+    background:var(--glass-fill);
+    border:1px solid var(--glass-border);
+    border-radius:22px;
+    backdrop-filter:blur(10px);
+    -webkit-backdrop-filter:blur(10px);
+    box-shadow:0 30px 60px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.12);
+  }
+  .hero-eyebrow{
+    font-family:'Baloo 2', sans-serif;
+    font-weight:600;
+    font-size:15px;
+    color:var(--foam-dim);
+    margin:0 0 6px;
+  }
+  .hero-panel h1{
+    font-size:clamp(30px, 4.2vw, 44px);
+    line-height:1.06;
+    margin-bottom:12px;
+  }
+  .hero-sub{
+    font-size:15.5px;
+    line-height:1.55;
+    color:var(--foam-dim);
+    max-width:38ch;
+    margin:0 0 26px;
+  }
+  .btn-row{ display:flex; flex-wrap:wrap; gap:12px; }
+
+  button, .btn{
+    font-family:'Inter', sans-serif;
+    font-weight:600;
+    font-size:15px;
+    border-radius:13px;
+    border:none;
+    padding:13px 20px;
+    cursor:pointer;
+    text-align:left;
+    text-decoration:none;
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+    transition:transform .15s ease, background .15s ease, box-shadow .15s ease;
+  }
+  button:focus-visible, .btn:focus-visible, a:focus-visible{
+    outline:3px solid var(--focus-ring);
+    outline-offset:2px;
+  }
+  .btn-primary{
+    background:linear-gradient(180deg, var(--coral), var(--coral-dark));
+    color:#1a0f0a;
+    box-shadow:0 10px 22px rgba(255,138,91,0.28);
+  }
+  .btn-primary:hover{ transform:translateY(-1px); }
+  .btn-secondary{
+    background:rgba(255,255,255,0.08);
+    color:var(--foam);
+    border:1px solid rgba(255,255,255,0.22);
+  }
+  .btn-secondary:hover{ background:rgba(255,255,255,0.14); }
+  .btn-ghost{
+    background:none;
+    border:1px solid rgba(255,255,255,0.28);
+    color:var(--foam-dim);
+    padding:11px 18px;
+    font-size:14px;
+  }
+  .btn-ghost:hover{ color:var(--foam); border-color:var(--foam-dim); }
+
+  .scroll-cue{
+    position:absolute;
+    bottom:24px; left:50%;
+    transform:translateX(-50%);
+    font-size:13px;
+    color:var(--foam-dim);
+    display:flex; flex-direction:column; align-items:center; gap:6px;
+  }
+  .scroll-cue span{
+    width:1px; height:26px;
+    background:linear-gradient(var(--foam-dim), transparent);
+    animation:scrollPulse 1.8s ease-in-out infinite;
+  }
+  @keyframes scrollPulse{ 0%,100%{ opacity:.3; } 50%{ opacity:1; } }
+
+  /* ---------- content sections ---------- */
+  #about{ background:var(--panel-a); }
+  #services{ background:var(--panel-b); }
+  #contact{ background:var(--panel-a); }
+
+  .section-eyebrow{
+    font-family:'Baloo 2', sans-serif;
+    font-weight:600;
+    font-size:14px;
+    color:var(--focus-ring);
+    margin:0 0 10px;
+  }
+  section h2{
+    font-size:clamp(26px,3.2vw,34px);
+    margin-bottom:18px;
+  }
+  section p{
+    color:var(--foam-dim);
+    line-height:1.65;
+    font-size:16px;
+    max-width:70ch;
+  }
+
+  .service-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(220px,1fr));
+    gap:14px;
+    margin-top:28px;
+  }
+  .service-item{
+    background:var(--glass-fill);
+    border:1px solid var(--glass-border);
+    border-radius:14px;
+    padding:18px 20px;
+    font-size:14.5px;
+    line-height:1.5;
+    color:var(--foam);
+  }
+  .pricing-note{
+    margin-top:26px;
+    padding:16px 20px;
+    border-left:3px solid var(--gold);
+    background:rgba(232,184,75,0.08);
+    font-size:14.5px;
+    color:var(--foam-dim);
+    border-radius:0 10px 10px 0;
+  }
+  .service-area{
+    margin-top:14px;
+    font-size:14.5px;
+    color:var(--foam-dim);
+  }
+
+  .contact-grid{
+    display:grid;
+    grid-template-columns:1.1fr 0.9fr;
+    gap:26px;
+    margin-top:30px;
+  }
+  @media (max-width:760px){ .contact-grid{ grid-template-columns:1fr; } }
+
+  .contact-card{
+    background:var(--glass-fill);
+    border:1px solid var(--glass-border);
+    border-radius:18px;
+    padding:26px;
+  }
+  .contact-line{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:12px 0;
+    border-bottom:1px solid rgba(255,255,255,0.09);
+    font-size:15px;
+  }
+  .contact-line:last-child{ border-bottom:none; }
+  .contact-line span:first-child{ color:var(--foam-dim); font-size:13.5px; }
+  .contact-line a{ text-decoration:none; font-weight:600; }
+  .social-row{ display:flex; gap:10px; margin-top:18px; }
+
+  .game-callout{
+    background:linear-gradient(160deg, rgba(124,179,66,0.14), var(--glass-fill));
+    border:1px solid var(--glass-border);
+    border-radius:18px;
+    padding:26px;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    gap:14px;
+  }
+  .game-callout h3{ font-size:20px; }
+  .game-callout p{ font-size:14.5px; margin:0; }
+
+  footer{
+    padding:36px 24px 46px;
+    text-align:center;
+    background:var(--water-deep);
+    border-top:1px solid rgba(255,255,255,0.08);
+  }
+  footer p{ color:var(--foam-dim); font-size:13.5px; margin:6px 0; }
+  .footer-links{ display:flex; justify-content:center; gap:16px; margin-top:10px; }
+  .footer-links a{ font-size:13.5px; color:var(--foam-dim); text-decoration:underline; text-underline-offset:3px; }
+
+  /* ---------- game overlay ---------- */
+  #gameOverlay{
+    position:fixed; inset:0;
+    z-index:50;
+    visibility:hidden;
+    opacity:0;
+    transition:opacity .35s ease;
+  }
+  #gameOverlay.open{ visibility:visible; opacity:1; }
+
+  #gameCanvas{ position:absolute; inset:0; width:100%; height:100%; display:block; touch-action:none; }
+
+  .game-close{
+    position:absolute; top:18px; left:18px;
+    width:40px; height:40px;
+    border-radius:50%;
+    background:var(--glass-fill);
+    border:1px solid var(--glass-border);
+    color:var(--foam);
+    font-size:18px;
+    display:flex; align-items:center; justify-content:center;
+    padding:0;
+  }
+
+  .game-hud{
+    position:absolute; top:0; left:0; right:0;
+    display:flex; justify-content:flex-end;
+    padding:18px 20px;
+    gap:16px;
+    pointer-events:none;
+  }
+  .level-card, .score-card{
+    background:var(--glass-fill);
+    border:1px solid var(--glass-border);
+    backdrop-filter:blur(8px);
+    -webkit-backdrop-filter:blur(8px);
+    border-radius:14px;
+    padding:10px 16px;
+    pointer-events:auto;
+  }
+  .level-card{ min-width:170px; }
+  .level-label{ font-family:'Baloo 2', sans-serif; font-weight:700; font-size:15px; margin:0 0 6px; }
+  .xp-track{ width:100%; height:8px; border-radius:6px; background:rgba(255,255,255,0.14); overflow:hidden; }
+  .xp-fill{ height:100%; width:0%; background:linear-gradient(90deg, var(--focus-ring), var(--algae)); border-radius:6px; transition:width .25s ease; }
+  .score-card{ text-align:right; font-size:13px; color:var(--foam-dim); }
+  .score-card strong{ display:block; font-family:'Baloo 2', sans-serif; font-size:20px; color:var(--foam); font-weight:700; }
+
+  .game-instructions{
+    position:absolute; bottom:26px; left:50%;
+    transform:translateX(-50%);
+    font-size:14px; color:var(--foam-dim); text-align:center;
+    transition:opacity .6s ease;
+  }
+
+  #sponge{
+    position:fixed; top:0; left:0;
+    width:46px; height:46px;
+    margin:-23px 0 0 -23px;
+    pointer-events:none;
+    font-size:34px;
+    transform:translate(-1000px,-1000px) rotate(0deg);
+    filter:drop-shadow(0 4px 6px rgba(0,0,0,0.35));
+    z-index:55;
+  }
+
+  .toast{
+    position:fixed; top:90px; left:50%;
+    transform:translateX(-50%) translateY(-14px);
+    background:rgba(15,58,69,0.92);
+    border:1px solid var(--glass-border);
+    padding:10px 20px;
+    border-radius:12px;
+    font-family:'Baloo 2', sans-serif;
+    font-weight:600;
+    font-size:15px;
+    opacity:0;
+    transition:opacity .35s ease, transform .35s ease;
+    pointer-events:none;
+    z-index:56;
+  }
+  .toast.show{ opacity:1; transform:translateX(-50%) translateY(0); }
+
+  .modal-backdrop{
+    position:fixed; inset:0;
+    background:rgba(3,14,19,0.72);
+    display:flex; align-items:center; justify-content:center;
+    padding:20px;
+    opacity:0; pointer-events:none;
+    transition:opacity .3s ease;
+    z-index:60;
+  }
+  .modal-backdrop.show{ opacity:1; pointer-events:auto; }
+  .modal{
+    background:var(--water-mid);
+    border:1px solid var(--glass-border);
+    border-radius:20px;
+    max-width:400px; width:100%;
+    padding:30px 28px;
+    text-align:center;
+    transform:translateY(12px);
+    transition:transform .3s ease;
+    box-shadow:0 30px 70px rgba(0,0,0,0.5);
+  }
+  .modal-backdrop.show .modal{ transform:translateY(0); }
+  .modal h2{ font-size:26px; margin:0 0 8px; }
+  .modal p{ color:var(--foam-dim); font-size:14.5px; line-height:1.5; margin:0 0 20px; max-width:none; }
+  .code-box{
+    font-family:'Inter', monospace;
+    letter-spacing:2px; font-size:24px; font-weight:600;
+    background:rgba(232,184,75,0.12);
+    border:1.5px dashed var(--gold);
+    color:var(--gold);
+    border-radius:12px; padding:14px; margin-bottom:18px;
+  }
+  .modal-actions{ display:flex; flex-direction:column; gap:10px; }
+  .modal-actions .btn, .modal-actions button{ justify-content:center; }
+  .copy-note{ font-size:12.5px; color:var(--focus-ring); height:16px; margin-top:-8px; margin-bottom:10px; }
+
+  @media (max-width:720px){
+    .nav-links{ display:none; }
+    .hero-panel{ margin:0 14px; max-width:unset; }
+    section{ padding:64px 20px; }
+  }
+  @media (prefers-reduced-motion: reduce){
+    html{ scroll-behavior:auto; }
+    .toast, .modal-backdrop, .modal, #gameOverlay{ transition:none; }
+    .scroll-cue span{ animation:none; }
+  }
+</style>
+</head>
+<body>
+
+<nav id="siteNav">
+  <a class="nav-brand" href="#hero">Cal's Perfection Aquatics</a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#contact">Contact</a></li>
+    <li><a class="nav-cta" href="#contact">Play &amp; win →</a></li>
+  </ul>
+</nav>
+
+<section id="hero">
+  <canvas id="heroCanvas" aria-hidden="true"></canvas>
+  <div class="hero-inner">
+    <div class="hero-panel">
+      <p class="hero-eyebrow">Cal's Perfection Aquatics</p>
+      <h1>Fish need plumbing services too.</h1>
+      <p class="hero-sub">Expert aquarium, pond, and water feature cleaning in Spokane and the greater Spokane area.</p>
+      <div class="btn-row">
+        <a class="btn btn-primary" href="#services"><span>See our services</span></a>
+        <a class="btn btn-secondary" href="#contact"><span>Get a free consultation</span></a>
+      </div>
+    </div>
+  </div>
+  <div class="scroll-cue"><span></span>Scroll</div>
+</section>
+
+<section id="about">
+  <div class="wrap">
+    <p class="section-eyebrow">About us</p>
+    <h2>The stress-free way to keep water clear.</h2>
+    <p>At Cal's Perfection Aquatics, our goal is simple: we take the stress out of aquarium maintenance. Starting with a passion for pristine, thriving aquariums, our expertise quickly expanded to include ponds, water features, and diverse aquatic environments. We genuinely love seeing our clients' smiles when they experience the beauty and tranquility of their healthy aquatic setups. From freshwater to saltwater, we've got you covered — let us show you the true potential of your aquatic space.</p>
+    <p class="service-area">Serving Spokane, Coeur d'Alene, Cheney, Airway Heights, Elk, and the surrounding area.</p>
+  </div>
+</section>
+
+<section id="services">
+  <div class="wrap">
+    <p class="section-eyebrow">What we do</p>
+    <h2>Every kind of tank gets the royal treatment.</h2>
+    <div class="service-grid">
+      <div class="service-item">Comprehensive aquarium, pond, and water feature cleanings</div>
+      <div class="service-item">Water quality testing and management</div>
+      <div class="service-item">Regular maintenance schedules customized to your needs</div>
+      <div class="service-item">Setup and teardown of aquatic environments</div>
+      <div class="service-item">Vacation aquarium care</div>
+      <div class="service-item">Freshwater, brackish, and saltwater tank maintenance</div>
+    </div>
+    <p class="pricing-note">Pricing depends on the size of the aquarium, pond, or water feature, distance traveled, and level of maintenance required. Request a consultation for a full quote.</p>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="wrap">
+    <p class="section-eyebrow">Get a free consultation</p>
+    <h2>Let's get your water back to perfect.</h2>
+    <p>Contact us and experience the Cal's Perfection Aquatics difference.</p>
+    <div class="contact-grid">
+      <div class="contact-card">
+        <div class="contact-line"><span>Hours</span><span id="hoursText">9:00 a.m.–5:00 p.m. PST</span></div>
+        <div class="contact-line"><span>Email</span><a id="emailLink" href="#">—</a></div>
+        <div class="contact-line"><span>Call or text</span><a id="phoneLink" href="#">—</a></div>
+        <div class="social-row">
+          <a class="btn btn-ghost" id="yelpLink" href="#" target="_blank" rel="noopener">Yelp</a>
+          <a class="btn btn-ghost" id="fbLink" href="#" target="_blank" rel="noopener">Facebook</a>
+        </div>
+      </div>
+      <div class="game-callout">
+        <h3>Feeling playful?</h3>
+        <p>Clean our virtual tank, clear level 5, and walk away with a discount code for your next real cleaning.</p>
+        <button class="btn btn-primary" id="playBtn"><span>Play the game for a discount</span><span>🧽</span></button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p id="footerName">Cal's Perfection Aquatics</p>
+  <p id="footerHours">Business hours: 9:00 a.m.–5:00 p.m. PST</p>
+  <div class="footer-links">
+    <a id="footerYelp" href="#" target="_blank" rel="noopener">Yelp</a>
+    <a id="footerFb" href="#" target="_blank" rel="noopener">Facebook</a>
+  </div>
+</footer>
+
+<!-- ============================================================
+     GAME OVERLAY
+     ============================================================ -->
+<div id="gameOverlay">
+  <canvas id="gameCanvas" aria-hidden="true"></canvas>
+  <button class="game-close" id="closeBtn" aria-label="Close game">✕</button>
+  <div class="game-hud">
+    <div class="level-card">
+      <p class="level-label" id="levelLabel">Level 1</p>
+      <div class="xp-track"><div class="xp-fill" id="xpFill"></div></div>
+    </div>
+    <div class="score-card">
+      High score <strong id="highScoreVal">0</strong>
+      <span id="scoreVal" style="display:block;margin-top:6px;">Score 0</span>
+    </div>
+  </div>
+  <p class="game-instructions" id="instructions">Tap the algae to scrub the glass clean</p>
+</div>
+
+<div id="sponge">🧽</div>
+<div class="toast" id="toast"></div>
+
+<div class="modal-backdrop" id="modal">
+  <div class="modal">
+    <h2>Tank's looking great</h2>
+    <p id="modalBody">You cleared level 5. Here's your code — show it to Cal to redeem it.</p>
+    <div class="code-box" id="codeBox">DIRTYFISH</div>
+    <div class="copy-note" id="copyNote"></div>
+    <div class="modal-actions">
+      <button class="btn btn-primary" id="copyBtn"><span>Copy code</span><span>⧉</span></button>
+      <button class="btn btn-secondary" id="bookBtn"><span>Book a cleaning</span><span>→</span></button>
+      <button class="btn btn-secondary" id="keepPlayingBtn"><span>Keep playing for high score</span><span>🐠</span></button>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  "use strict";
+
+  /* ============================================================
+     CONFIG — the only section a shop owner needs to edit
+     ============================================================ */
+  const CONFIG = {
+    businessName: "Cal's Perfection Aquatics",
+    email: "calsperfectionaquatics@gmail.com",
+    phone: "(509) 828-9399",
+    phoneHref: "tel:+15098289399",
+    hours: "9:00 a.m.–5:00 p.m. PST",
+    yelpUrl: "https://www.yelp.com/biz/cals-perfection-aquatics-spokane-valley",
+    facebookUrl: "https://www.facebook.com/profile.php?id=61557978218930",
+    contactSubject: "Question about aquarium cleaning",
+    discountCode: "DIRTYFISH",
+    discountDescription: "15% off your next cleaning", // edit the percentage to whatever you'd like to offer
+    // cumulative score needed to REACH each level (index 0 = level 1)
+    levelThresholds: [0, 120, 300, 550, 850, 1200],
+  };
+  const MAX_LEVEL = CONFIG.levelThresholds.length;
+
+  // ---- wire CONFIG into the page ----
+  document.getElementById('emailLink').textContent = CONFIG.email;
+  document.getElementById('emailLink').href = `mailto:${CONFIG.email}?subject=${encodeURIComponent(CONFIG.contactSubject)}`;
+  document.getElementById('phoneLink').textContent = CONFIG.phone;
+  document.getElementById('phoneLink').href = CONFIG.phoneHref;
+  document.getElementById('hoursText').textContent = CONFIG.hours;
+  document.getElementById('footerHours').textContent = `Business hours: ${CONFIG.hours}`;
+  document.getElementById('footerName').textContent = CONFIG.businessName;
+  for (const id of ['yelpLink','footerYelp']) document.getElementById(id).href = CONFIG.yelpUrl;
+  for (const id of ['fbLink','footerFb']) document.getElementById(id).href = CONFIG.facebookUrl;
+  document.getElementById('bookBtn').addEventListener('click', () => {
+    window.location.href = `mailto:${CONFIG.email}?subject=${encodeURIComponent('Booking a cleaning — code ' + CONFIG.discountCode)}`;
+  });
+  document.getElementById('codeBox').textContent = CONFIG.discountCode;
+  document.getElementById('modalBody').textContent =
+    `You cleared level ${MAX_LEVEL}. Here's your code for ${CONFIG.discountDescription}.`;
+
+  /* ============================================================
+     Nav solid-on-scroll
+     ============================================================ */
+  const nav = document.getElementById('siteNav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('solid', window.scrollY > 40);
+  });
+
+  /* ============================================================
+     Shared tank-scene helpers (used by hero + game canvases)
+     ============================================================ */
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const FISH_COLORS = ['#ff8a5b','#f4d35e','#4fb3d9','#e2e8ea','#ff6f91'];
+  function rand(a,b){ return a + Math.random()*(b-a); }
+  function pick(arr){ return arr[(Math.random()*arr.length)|0]; }
+
+  function makePlants(count,W,H,opacity,color){
+    const plants = [];
+    for(let i=0;i<count;i++){
+      plants.push({ x:rand(0,W), h:rand(H*0.18,H*0.4), w:rand(18,40), sway:rand(0,Math.PI*2), speed:rand(0.4,0.8), opacity, color });
+    }
+    return plants;
+  }
+  function drawPlant(ctx,p,H,t){
+    const baseX = p.x, baseY = H + 6;
+    const sway = Math.sin(t*0.001*p.speed + p.sway) * (p.w*0.5);
+    ctx.strokeStyle = p.color;
+    ctx.globalAlpha = p.opacity;
+    ctx.lineWidth = p.w*0.22;
+    ctx.lineCap = 'round';
+    ctx.beginPath();
+    ctx.moveTo(baseX, baseY);
+    ctx.quadraticCurveTo(baseX + sway*0.6, baseY - p.h*0.55, baseX + sway, baseY - p.h);
+    ctx.stroke();
+    ctx.globalAlpha = 1;
+  }
+
+  function makeFish(n,W,H){
+    const arr = [];
+    for(let i=0;i<n;i++){
+      arr.push({ x:rand(0,W), y:rand(H*0.12,H*0.62), dir:Math.random()<0.5?1:-1, speed:rand(18,42), size:rand(14,26), color:pick(FISH_COLORS), wobble:rand(0,Math.PI*2), depth:rand(0.5,1) });
+    }
+    return arr;
+  }
+  function updateFish(f,dt,W,H){
+    f.x += f.dir * f.speed * dt;
+    if(f.dir===1 && f.x > W+40){ f.x=-40; f.y=rand(H*0.12,H*0.62); }
+    if(f.dir===-1 && f.x < -40){ f.x=W+40; f.y=rand(H*0.12,H*0.62); }
+  }
+  function drawFish(ctx,f,t){
+    ctx.save();
+    const wob = Math.sin(t*0.004 + f.wobble) * 6 * f.depth;
+    ctx.translate(f.x, f.y + wob);
+    ctx.scale(f.dir * f.depth, f.depth);
+    ctx.globalAlpha = 0.55 + 0.45*f.depth;
+    const tailFlap = Math.sin(t*0.012 + f.wobble) * 0.5;
+    ctx.fillStyle = f.color;
+    ctx.beginPath();
+    ctx.moveTo(-f.size*0.9,0);
+    ctx.lineTo(-f.size*1.6, -f.size*0.5+tailFlap*6);
+    ctx.lineTo(-f.size*1.6, f.size*0.5+tailFlap*6);
+    ctx.closePath(); ctx.fill();
+    ctx.beginPath();
+    ctx.ellipse(0,0,f.size,f.size*0.58,0,0,Math.PI*2);
+    ctx.fill();
+    ctx.fillStyle = 'rgba(10,20,25,0.8)';
+    ctx.beginPath();
+    ctx.arc(f.size*0.45, -f.size*0.08, f.size*0.09, 0, Math.PI*2);
+    ctx.fill();
+    ctx.restore();
+    ctx.globalAlpha = 1;
+  }
+
+  function makeBubbles(n,W,H){
+    const arr = [];
+    for(let i=0;i<n;i++) arr.push({ x:rand(0,W), y:rand(0,H), r:rand(2,6), speed:rand(14,38), wobble:rand(0,Math.PI*2) });
+    return arr;
+  }
+  function updateBubble(b,dt,H,W){
+    b.y -= b.speed*dt;
+    if(b.y < -10){ b.y = H+10; b.x = rand(0,W); }
+  }
+  function drawBubble(ctx,b,t){
+    ctx.beginPath();
+    const bx = b.x + Math.sin(t*0.002+b.wobble)*8;
+    ctx.arc(bx,b.y,b.r,0,Math.PI*2);
+    ctx.strokeStyle = 'rgba(220,245,245,0.35)';
+    ctx.lineWidth = 1;
+    ctx.stroke();
+  }
+
+  function drawWaterBase(ctx,W,H){
+    const g = ctx.createLinearGradient(0,0,0,H);
+    g.addColorStop(0,'#0c3541'); g.addColorStop(0.55,'#0a2a34'); g.addColorStop(1,'#061a22');
+    ctx.fillStyle = g; ctx.fillRect(0,0,W,H);
+  }
+  function drawLight(ctx,W,H,t){
+    const grad = ctx.createRadialGradient(W*0.5,-H*0.15,W*0.1,W*0.5,-H*0.15,W*0.9);
+    grad.addColorStop(0,'rgba(190,235,235,0.16)'); grad.addColorStop(1,'rgba(190,235,235,0)');
+    ctx.fillStyle = grad; ctx.fillRect(0,0,W,H);
+    ctx.globalAlpha = 0.05; ctx.fillStyle = '#dff5f2';
+    for(let i=0;i<3;i++){
+      const sway = Math.sin(t*0.0006+i*2)*60;
+      ctx.beginPath();
+      ctx.moveTo(W*0.15*i+sway,0);
+      ctx.lineTo(W*0.15*i+70+sway,0);
+      ctx.lineTo(W*0.15*i-40+sway,H);
+      ctx.lineTo(W*0.15*i-110+sway,H);
+      ctx.closePath(); ctx.fill();
+    }
+    ctx.globalAlpha = 1;
+  }
+  function drawGravel(ctx,W,H){
+    const gravelH = H*0.09;
+    ctx.fillStyle = '#0a2620';
+    ctx.fillRect(0,H-gravelH,W,gravelH);
+    ctx.fillStyle = 'rgba(0,0,0,0.15)';
+    for(let i=0;i<W;i+=14){
+      const h = rand(2,7);
+      ctx.fillRect(i, H-gravelH+rand(-2,2), 10, h);
+    }
+  }
+
+  function createScene(canvas, opts){
+    const ctx = canvas.getContext('2d');
+    const s = { W:0, H:0, DPR:Math.min(window.devicePixelRatio||1,2), fish:[], bubbles:[], backPlants:[], frontPlants:[] };
+    function resize(){
+      s.W = canvas.clientWidth; s.H = canvas.clientHeight;
+      canvas.width = s.W * s.DPR; canvas.height = s.H * s.DPR;
+      ctx.setTransform(s.DPR,0,0,s.DPR,0,0);
+      s.backPlants = makePlants(Math.max(3,Math.floor(s.W/280)), s.W, s.H, 0.35, '#0d4a3a');
+      s.frontPlants = makePlants(Math.max(2,Math.floor(s.W/360)), s.W, s.H, 0.55, '#12603f');
+      if(!s.bubbles.length) s.bubbles = makeBubbles(opts.bubbleCount||18, s.W, s.H);
+      if(!s.fish.length) s.fish = makeFish(opts.fishCount||6, s.W, s.H);
+    }
+    function setFishCount(n){
+      if(s.fish.length < n) s.fish = s.fish.concat(makeFish(n-s.fish.length, s.W, s.H));
+      else s.fish = s.fish.slice(0,n);
+    }
+    function draw(t,dt){
+      drawWaterBase(ctx,s.W,s.H);
+      drawLight(ctx,s.W,s.H,t);
+      s.backPlants.forEach(p=>drawPlant(ctx,p,s.H,t));
+      s.bubbles.forEach(b=>{ updateBubble(b, reduceMotion?dt*0.3:dt, s.H, s.W); drawBubble(ctx,b,t); });
+      s.fish.forEach(f=>{ updateFish(f, reduceMotion?dt*0.3:dt, s.W, s.H); drawFish(ctx,f,t); });
+      s.frontPlants.forEach(p=>drawPlant(ctx,p,s.H,t));
+      drawGravel(ctx,s.W,s.H);
+    }
+    window.addEventListener('resize', resize);
+    resize();
+    return { ctx, s, draw, resize, setFishCount };
+  }
+
+  const heroCanvas = document.getElementById('heroCanvas');
+  const gameCanvas = document.getElementById('gameCanvas');
+  const heroScene = createScene(heroCanvas, { fishCount:6, bubbleCount:14 });
+  const gameScene = createScene(gameCanvas, { fishCount:5, bubbleCount:22 });
+
+  let heroVisible = true;
+  new IntersectionObserver((entries)=>{ heroVisible = entries[0].isIntersecting; }, {threshold:0.01})
+    .observe(document.getElementById('hero'));
+
+  /* ============================================================
+     Algae / game state (runs on gameScene)
+     ============================================================ */
+  let gameOpen = false;
+  let algae = [];
+  let score = 0, level = 1, highScore = 0;
+  let spawnTimer = 0, spawnInterval = 1300, maxAlgae = 3;
+  let particles = [];
+  let discountShown = false;
+
+  try{
+    const saved = window.localStorage.getItem('cpa_highscore');
+    if(saved) highScore = parseInt(saved,10) || 0;
+  }catch(e){}
+  document.getElementById('highScoreVal').textContent = highScore;
+
+  function levelFromScore(sc){
+    let lvl = 1;
+    for(let i=1;i<CONFIG.levelThresholds.length;i++) if(sc >= CONFIG.levelThresholds[i]) lvl = i+1;
+    return Math.min(lvl, MAX_LEVEL);
+  }
+  function difficultyForLevel(lvl){
+    return {
+      spawnInterval: Math.max(420, 1300 - lvl*180),
+      maxAlgae: Math.min(11, 2 + lvl*2),
+      fishCount: Math.min(16, 4 + lvl*2)
+    };
+  }
+  function applyDifficulty(lvl){
+    const d = difficultyForLevel(lvl);
+    spawnInterval = d.spawnInterval; maxAlgae = d.maxAlgae;
+    gameScene.setFishCount(d.fishCount);
+  }
+  function spawnAlgae(){
+    if(algae.length >= maxAlgae) return;
+    const pad = 60;
+    algae.push({ x:rand(pad, gameScene.s.W-pad), y:rand(gameScene.s.H*0.18, gameScene.s.H*0.78), r:0, targetR:rand(16,30), age:0, growSpeed:rand(0.55,1.1) });
+  }
+  function drawAlgae(ctx,a){
+    ctx.save();
+    ctx.translate(a.x,a.y);
+    ctx.fillStyle = a.age>6 ? '#5f9330' : 'rgba(124,179,66,0.88)';
+    for(let i=0;i<5;i++){
+      const ang = (i/5)*Math.PI*2;
+      const rr = a.r*(0.7+0.3*Math.sin(i*1.7+a.age));
+      ctx.beginPath();
+      ctx.ellipse(Math.cos(ang)*a.r*0.35, Math.sin(ang)*a.r*0.35, rr*0.6, rr*0.45, ang, 0, Math.PI*2);
+      ctx.fill();
+    }
+    ctx.beginPath();
+    ctx.arc(0,0,a.r*0.55,0,Math.PI*2);
+    ctx.fillStyle = 'rgba(90,140,45,0.9)';
+    ctx.fill();
+    ctx.restore();
+  }
+  function spawnParticles(x,y,color){
+    for(let i=0;i<10;i++) particles.push({ x,y, vx:rand(-70,70), vy:rand(-110,-30), life:1, color });
+  }
+  function updateParticles(dt){
+    for(let i=particles.length-1;i>=0;i--){
+      const p = particles[i];
+      p.x += p.vx*dt; p.y += p.vy*dt; p.vy += 140*dt; p.life -= dt*1.6;
+      if(p.life<=0) particles.splice(i,1);
+    }
+  }
+  function drawParticles(ctx){
+    for(const p of particles){
+      ctx.globalAlpha = Math.max(p.life,0);
+      ctx.fillStyle = p.color;
+      ctx.beginPath(); ctx.arc(p.x,p.y,3,0,Math.PI*2); ctx.fill();
+    }
+    ctx.globalAlpha = 1;
+  }
+
+  let audioCtx;
+  function pop(){
+    try{
+      audioCtx = audioCtx || new (window.AudioContext || window.webkitAudioContext)();
+      const o = audioCtx.createOscillator(), g = audioCtx.createGain();
+      o.type = 'sine';
+      o.frequency.setValueAtTime(rand(480,620), audioCtx.currentTime);
+      o.frequency.exponentialRampToValueAtTime(180, audioCtx.currentTime+0.12);
+      g.gain.setValueAtTime(0.06, audioCtx.currentTime);
+      g.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime+0.13);
+      o.connect(g); g.connect(audioCtx.destination);
+      o.start(); o.stop(audioCtx.currentTime+0.14);
+    }catch(e){}
+  }
+
+  const levelLabel = document.getElementById('levelLabel');
+  const xpFill = document.getElementById('xpFill');
+  const scoreVal = document.getElementById('scoreVal');
+  const highScoreVal = document.getElementById('highScoreVal');
+  const toastEl = document.getElementById('toast');
+  const instructions = document.getElementById('instructions');
+
+  function updateHud(){
+    levelLabel.textContent = level >= MAX_LEVEL ? `Level ${MAX_LEVEL} +` : `Level ${level}`;
+    scoreVal.textContent = `Score ${score}`;
+    const lo = CONFIG.levelThresholds[level-1] ?? 0;
+    const hi = CONFIG.levelThresholds[level] ?? (lo+400);
+    const pct = level >= MAX_LEVEL ? 100 : Math.min(100, ((score-lo)/(hi-lo))*100);
+    xpFill.style.width = pct + '%';
+    if(score > highScore){
+      highScore = score;
+      highScoreVal.textContent = highScore;
+      try{ window.localStorage.setItem('cpa_highscore', String(highScore)); }catch(e){}
+    }
+  }
+  let toastTimer = null;
+  function showToast(msg){
+    toastEl.textContent = msg;
+    toastEl.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(()=> toastEl.classList.remove('show'), 1400);
+  }
+
+  const modal = document.getElementById('modal');
+  function openDiscountModal(){ modal.classList.add('show'); }
+  function closeDiscountModal(){ modal.classList.remove('show'); }
+  document.getElementById('keepPlayingBtn').addEventListener('click', closeDiscountModal);
+  document.getElementById('copyBtn').addEventListener('click', async () => {
+    const note = document.getElementById('copyNote');
+    try{ await navigator.clipboard.writeText(CONFIG.discountCode); note.textContent = 'Copied — see you soon!'; }
+    catch(e){ note.textContent = CONFIG.discountCode; }
+  });
+
+  function cleanAlgaeAt(idx){
+    const a = algae[idx];
+    const points = Math.round(8 + a.r*0.6);
+    score += points;
+    spawnParticles(a.x, a.y, '#bfe8c9');
+    algae.splice(idx,1);
+    pop();
+    const newLevel = levelFromScore(score);
+    if(newLevel !== level){
+      const wasBelow = level < MAX_LEVEL;
+      level = newLevel;
+      applyDifficulty(level);
+      if(level >= MAX_LEVEL && wasBelow && !discountShown){
+        discountShown = true;
+        setTimeout(openDiscountModal, 350);
+      } else {
+        showToast(`Level ${level}!`);
+      }
+    }
+    updateHud();
+  }
+
+  /* ============================================================
+     Game overlay open/close
+     ============================================================ */
+  const overlay = document.getElementById('gameOverlay');
+  const sponge = document.getElementById('sponge');
+
+  function openGame(){
+    gameOpen = true;
+    score = 0; level = 1; algae = []; particles = []; discountShown = false;
+    applyDifficulty(1);
+    overlay.classList.add('open');
+    document.body.style.overflow = 'hidden';
+    instructions.style.opacity = '1';
+    updateHud();
+    gameScene.resize();
+    setTimeout(()=>{ instructions.style.opacity = '0'; }, 4200);
+  }
+  function closeGame(){
+    gameOpen = false;
+    algae = [];
+    overlay.classList.remove('open');
+    document.body.style.overflow = '';
+    gameScene.setFishCount(5);
+    closeDiscountModal();
+    sponge.style.transform = 'translate(-1000px,-1000px)';
+  }
+
+  document.getElementById('playBtn').addEventListener('click', openGame);
+  document.getElementById('closeBtn').addEventListener('click', closeGame);
+
+  function tryClean(x,y){
+    for(let i=algae.length-1;i>=0;i--){
+      const a = algae[i];
+      if(Math.hypot(a.x-x, a.y-y) <= a.r+8){ cleanAlgaeAt(i); return; }
+    }
+  }
+  overlay.addEventListener('pointermove', (e)=>{
+    if(!gameOpen) return;
+    sponge.style.transform = `translate(${e.clientX}px, ${e.clientY}px) rotate(${Math.sin(e.clientX*0.05)*12}deg)`;
+  });
+  overlay.addEventListener('pointerdown', (e)=>{
+    if(!gameOpen) return;
+    if(e.target.closest('.game-close')) return;
+    tryClean(e.clientX, e.clientY);
+  });
+
+  /* ============================================================
+     Single render loop
+     ============================================================ */
+  let lastT = performance.now();
+  function frame(t){
+    const dt = Math.min(0.05, (t-lastT)/1000);
+    lastT = t;
+
+    if(heroVisible) heroScene.draw(t,dt);
+
+    if(gameOpen){
+      gameScene.draw(t,dt);
+      spawnTimer += dt*1000;
+      if(spawnTimer > spawnInterval){ spawnTimer = 0; spawnAlgae(); }
+      for(const a of algae){
+        a.age += dt;
+        if(a.r < a.targetR) a.r += a.growSpeed*30*dt;
+        drawAlgae(gameScene.ctx, a);
+      }
+      updateParticles(dt);
+      drawParticles(gameScene.ctx);
+    }
+    requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
+})();
+</script>
+</body>
+</html>

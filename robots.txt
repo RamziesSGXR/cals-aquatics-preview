@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://ramziessgxr.github.io/cals-aquatics-preview/sitemap.xml

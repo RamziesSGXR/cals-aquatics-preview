@@ -1,0 +1,263 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Owner dashboard | Cal's Perfection Aquatics</title>
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#062a33">
+  <link rel="icon" href="images/favicon.svg" type="image/svg+xml">
+  <link rel="preload" href="fonts/baloo-2-latin-800-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="css/site.css">
+  <link rel="stylesheet" href="css/admin.css">
+</head>
+<body class="admin">
+  <header class="admin-top">
+    <div class="admin-top-inner">
+      <a class="brand" href="./">
+        <svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="20" fill="#0e7372"/><path d="M8 21c3-5.5 12-6.5 17-1.5l6-4.5v12l-6-4.5c-5 5-14 4-17-1.5z" fill="#f2714b"/><circle cx="12.6" cy="20.2" r="1.4" fill="#062a33"/><circle cx="27" cy="9" r="2.1" fill="none" stroke="#eaf6f4" stroke-width="1.4"/><circle cx="31.5" cy="5.6" r="1.2" fill="none" stroke="#eaf6f4" stroke-width="1.2"/></svg>
+        <span>Owner dashboard</span>
+      </a>
+      <div class="admin-top-actions">
+        <span class="who" id="who" hidden></span>
+        <a class="top-link" href="./" target="_blank" rel="noopener">View site</a>
+        <button class="top-link" type="button" id="signOutBtn" hidden>Sign out</button>
+      </div>
+    </div>
+  </header>
+
+  <div class="preview-banner" id="previewBanner" hidden>
+    <strong>Preview mode.</strong> The owner login isn't connected yet, so changes you make here save only in this browser. Visitors won't see them until it's connected (see the README's "Connect the owner login" steps).
+  </div>
+
+  <main class="admin-main">
+    <!-- Sign-in -->
+    <section class="gate" id="gate">
+      <h1>Update the website</h1>
+      <p id="gateText">Sign in with the Google account for Cal's Perfection Aquatics to change the discount, block off days, and edit your info.</p>
+      <button class="btn btn-primary" type="button" id="signInBtn" hidden>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#fff" d="M21.6 12.2c0-.7-.1-1.4-.2-2H12v3.8h5.4a4.6 4.6 0 0 1-2 3v2.5h3.2c1.9-1.7 3-4.3 3-7.3z"/><path fill="#fff" d="M12 22c2.7 0 5-.9 6.6-2.4l-3.2-2.5c-.9.6-2 1-3.4 1-2.6 0-4.8-1.8-5.6-4.1H3.1v2.6A10 10 0 0 0 12 22z" opacity=".85"/><path fill="#fff" d="M6.4 14a6 6 0 0 1 0-4V7.4H3.1a10 10 0 0 0 0 9.2L6.4 14z" opacity=".7"/><path fill="#fff" d="M12 5.9c1.5 0 2.8.5 3.8 1.5l2.9-2.9A10 10 0 0 0 3.1 7.4L6.4 10C7.2 7.7 9.4 5.9 12 5.9z" opacity=".55"/></svg>
+        Sign in with Google
+      </button>
+      <button class="btn btn-primary" type="button" id="previewBtn" hidden>Open the preview dashboard</button>
+      <button class="btn btn-outline" type="button" id="gateSignOut" hidden>Use a different account</button>
+      <p class="gate-error" id="gateError" role="alert" hidden></p>
+    </section>
+
+    <!-- Dashboard -->
+    <div class="dash" id="dash" hidden>
+      <div class="tabs" role="tablist" aria-label="Dashboard sections">
+        <button role="tab" type="button" id="tab-overview" aria-controls="panel-overview" aria-selected="true">Overview</button>
+        <button role="tab" type="button" id="tab-availability" aria-controls="panel-availability" aria-selected="false">Availability</button>
+        <button role="tab" type="button" id="tab-discount" aria-controls="panel-discount" aria-selected="false">Discount &amp; game</button>
+        <button role="tab" type="button" id="tab-business" aria-controls="panel-business" aria-selected="false">Contact info</button>
+        <button role="tab" type="button" id="tab-about" aria-controls="panel-about" aria-selected="false">About page</button>
+        <button role="tab" type="button" id="tab-announce" aria-controls="panel-announce" aria-selected="false">Announcement</button>
+      </div>
+
+      <!-- Overview -->
+      <section class="panel" role="tabpanel" id="panel-overview" aria-labelledby="tab-overview">
+        <h1 class="panel-title">Hi, <span id="hiName">Cameron</span></h1>
+        <p class="panel-lead">Here's what the website is showing right now.</p>
+        <ul class="status-list" id="statusList"></ul>
+        <h2 class="sub-title">Coming up</h2>
+        <ul class="upcoming" id="upcoming"></ul>
+      </section>
+
+      <!-- Availability -->
+      <section class="panel" role="tabpanel" id="panel-availability" aria-labelledby="tab-availability" hidden>
+        <h1 class="panel-title">Availability</h1>
+        <p class="panel-lead">Pick a day to block it off or mark busy hours. Customers see open, partly booked, or booked. They never see why.</p>
+
+        <div class="avail-grid">
+          <div class="admin-cal">
+            <div class="cal-head">
+              <button class="cal-nav" id="aPrev" type="button" aria-label="Previous month"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 5-7 7 7 7"/></svg></button>
+              <h2 id="aMonth">Month</h2>
+              <button class="cal-nav" id="aNext" type="button" aria-label="Next month"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 5 7 7-7 7"/></svg></button>
+            </div>
+            <div class="cal-weekdays" id="aWeekdays"></div>
+            <div class="cal-grid" id="aGrid"></div>
+            <ul class="cal-legend admin-legend">
+              <li><i class="lg-a-open"></i>Open</li>
+              <li><i class="lg-a-part"></i>Some hours blocked</li>
+              <li><i class="lg-a-blocked"></i>Blocked</li>
+              <li><i class="lg-a-closed"></i>Not a work day</li>
+            </ul>
+          </div>
+
+          <div class="day-editor" id="dayEditor" aria-live="polite"></div>
+        </div>
+
+        <div class="card">
+          <h2 class="card-title">Block several days</h2>
+          <p class="card-help">For a vacation or a busy stretch. Every day in the range is blocked off.</p>
+          <div class="range-row">
+            <div class="field"><label for="rangeFrom">From</label><input type="date" id="rangeFrom"></div>
+            <div class="field"><label for="rangeTo">To</label><input type="date" id="rangeTo"></div>
+            <button class="btn btn-outline" type="button" id="rangeBlock">Block these days</button>
+          </div>
+        </div>
+
+        <div class="card">
+          <h2 class="card-title">Normal working hours</h2>
+          <p class="card-help">The starting point for every week. Blocks are taken out of these hours.</p>
+          <div class="weekly" id="weekly"></div>
+        </div>
+
+        <div class="card">
+          <h2 class="card-title">Booking window</h2>
+          <div class="field-row">
+            <div class="field">
+              <label for="noticeDays">How much notice do you need?</label>
+              <select id="noticeDays" data-bind="settings.booking.noticeDays" data-type="number">
+                <option value="0">None, same day is fine</option>
+                <option value="1">1 day</option>
+                <option value="2">2 days</option>
+                <option value="3">3 days</option>
+                <option value="7">1 week</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="weeksAhead">How far ahead can people pick?</label>
+              <select id="weeksAhead" data-bind="settings.booking.weeksAhead" data-type="number">
+                <option value="2">2 weeks</option>
+                <option value="4">4 weeks</option>
+                <option value="8">8 weeks</option>
+                <option value="12">12 weeks</option>
+                <option value="26">6 months</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Discount -->
+      <section class="panel" role="tabpanel" id="panel-discount" aria-labelledby="tab-discount" hidden>
+        <h1 class="panel-title">Discount &amp; game</h1>
+        <p class="panel-lead">The tank game hands out this code when someone clears the level you choose.</p>
+        <div class="card">
+          <label class="switch-row">
+            <input type="checkbox" class="switch" data-bind="settings.discount.enabled">
+            <span><strong>Give a discount code for winning</strong><span class="switch-help">Turn off and the game is just for high scores.</span></span>
+          </label>
+          <div class="discount-fields" id="discountFields">
+            <div class="field-row">
+              <div class="field">
+                <label for="dCode">Discount code</label>
+                <input id="dCode" class="code-input" maxlength="20" autocomplete="off" spellcheck="false" data-bind="settings.discount.code" data-transform="code">
+                <span class="field-help">Letters and numbers only.</span>
+              </div>
+              <div class="field">
+                <label for="dLevel">Level they need to clear</label>
+                <select id="dLevel" data-bind="settings.discount.winLevel" data-type="number">
+                  <option value="2">Level 2 (very easy)</option>
+                  <option value="3">Level 3 (easy)</option>
+                  <option value="4">Level 4</option>
+                  <option value="5">Level 5 (about a minute)</option>
+                  <option value="6">Level 6</option>
+                  <option value="7">Level 7 (hard)</option>
+                  <option value="8">Level 8 (very hard)</option>
+                </select>
+              </div>
+            </div>
+            <div class="field">
+              <label for="dOffer">What they win</label>
+              <input id="dOffer" maxlength="60" data-bind="settings.discount.offer" placeholder="15% off your next cleaning">
+            </div>
+            <div class="preview-line" id="discountPreview"></div>
+          </div>
+        </div>
+        <p class="note">Good to know: this works like a coupon, not a password. Someone tech-savvy could find the code in the page, so pick an offer you're happy to honor. Changing the code doesn't cancel ones people already won; that's your call.</p>
+      </section>
+
+      <!-- Business -->
+      <section class="panel" role="tabpanel" id="panel-business" aria-labelledby="tab-business" hidden>
+        <h1 class="panel-title">Contact info</h1>
+        <p class="panel-lead">Shown in the contact section and footer, and used by the request form.</p>
+        <div class="card">
+          <div class="field-row">
+            <div class="field"><label for="bPhone">Phone (call or text)</label><input id="bPhone" type="tel" data-bind="settings.business.phone"></div>
+            <div class="field"><label for="bEmail">Email</label><input id="bEmail" type="email" data-bind="settings.business.email"></div>
+          </div>
+          <div class="field"><label for="bHours">Business hours</label><input id="bHours" data-bind="settings.business.hoursText" placeholder="9:00 a.m.–5:00 p.m. Pacific"></div>
+          <div class="field-row">
+            <div class="field"><label for="bYelp">Yelp page link</label><input id="bYelp" type="url" data-bind="settings.business.yelpUrl"></div>
+            <div class="field"><label for="bFb">Facebook page link</label><input id="bFb" type="url" data-bind="settings.business.facebookUrl"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- About -->
+      <section class="panel" role="tabpanel" id="panel-about" aria-labelledby="tab-about" hidden>
+        <h1 class="panel-title">About page</h1>
+        <p class="panel-lead">Your story is what makes people pick you over a stranger. A few honest sentences go a long way.</p>
+        <div class="card">
+          <div class="field-row">
+            <div class="field"><label for="aName">Your name</label><input id="aName" data-bind="settings.business.owner"></div>
+            <div class="field">
+              <label for="aPhoto">Photo link <span class="hint">(optional)</span></label>
+              <input id="aPhoto" type="url" data-bind="settings.about.photoUrl" placeholder="images/cameron.jpg">
+              <span class="field-help">A photo of you with a tank works great. Leave blank to show your initials.</span>
+            </div>
+          </div>
+          <div class="field">
+            <label for="aBio">Your story</label>
+            <textarea id="aBio" rows="10" data-bind="settings.about.bio"></textarea>
+            <span class="field-help">Leave a blank line between paragraphs. The first paragraph also appears on the home page.</span>
+          </div>
+          <details class="prompts">
+            <summary>Stuck? Ideas to write about</summary>
+            <ul>
+              <li>How did you get into fish? What was your first tank?</li>
+              <li>How long have you been keeping aquariums or ponds?</li>
+              <li>What kind of tank do you have at home right now?</li>
+              <li>What's the most satisfying cleanup you've done?</li>
+              <li>Why did you start doing this for other people?</li>
+            </ul>
+          </details>
+        </div>
+        <div class="card">
+          <h2 class="card-title">Quick facts</h2>
+          <p class="card-help">Short facts shown next to your photo. Leave a row empty to hide it.</p>
+          <div class="facts-editor" id="factsEditor"></div>
+          <div class="fact-suggest" id="factSuggest">
+            <span>Add:</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Announcement -->
+      <section class="panel" role="tabpanel" id="panel-announce" aria-labelledby="tab-announce" hidden>
+        <h1 class="panel-title">Announcement</h1>
+        <p class="panel-lead">A strip across the top of every page, for things like holiday hours or a booking push.</p>
+        <div class="card">
+          <label class="switch-row">
+            <input type="checkbox" class="switch" data-bind="settings.announcement.enabled">
+            <span><strong>Show the announcement</strong></span>
+          </label>
+          <div class="field">
+            <label for="annText">Message</label>
+            <input id="annText" maxlength="140" data-bind="settings.announcement.text" placeholder="Booking December cleanings now. Vacation care available over the holidays.">
+            <span class="field-help"><span id="annCount">0</span>/140</span>
+          </div>
+          <div class="announce-preview" id="annPreview" aria-hidden="true"></div>
+        </div>
+      </section>
+
+      <p class="reset-preview" id="resetPreviewWrap" hidden><button type="button" id="resetPreview">Reset preview data</button></p>
+    </div>
+  </main>
+
+  <div class="savebar" id="saveBar" hidden>
+    <span>You have unsaved changes</span>
+    <div>
+      <button class="btn btn-glass" type="button" id="discardBtn">Discard</button>
+      <button class="btn btn-primary" type="button" id="saveBtn">Save changes</button>
+    </div>
+  </div>
+  <div class="admin-toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script type="module" src="js/admin.js"></script>
+</body>
+</html>

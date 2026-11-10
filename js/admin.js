@@ -562,7 +562,8 @@ function requestCard(r) {
     const ok = current.enabled && r.code.toUpperCase() === String(current.code).toUpperCase();
     add("Code", [document.createTextNode(r.code), el("span", { className: `code-tag ${ok ? "code-ok" : "code-old"}`, textContent: ok ? "matches current code" : "not the current code" })]);
   }
-  add("Sent by", r.via === "text" ? "Text message" : r.via === "email" ? "Email" : "");
+  // Older requests were also sent by the visitor's text or email app.
+  add("Also sent by", r.via === "text" ? "Text message" : r.via === "email" ? "Email" : "");
   li.append(el("dl", { className: "req-details" }, ...rows));
   if (r.notes) li.append(el("p", { className: "req-notes", textContent: r.notes }));
 

@@ -5,6 +5,7 @@
 import { cachedSettings, cachedAvailability, loadSettings, loadAvailability, submitRequest } from "./store.js";
 import { createTank } from "./tank.js";
 import { initGame, getWonCode } from "./game.js";
+import { sendRequestAlerts } from "./notify.js";
 import {
   MONTHS, WEEKDAYS_SHORT, monthGrid, dayStatus, todayKey, fromKey, addDays,
   formatDateLong, formatDateShort, formatRange,
@@ -334,41 +335,34 @@ function fillCodeFromGame() {
   }
 }
 
-function composeMessage(form) {
-  const f = form.elements;
-  const lines = [`Hi ${firstName()}, I'd like to request a cleaning.`, ""];
-  lines.push(`Name: ${f.name.value.trim()}`);
-  lines.push(`Best way to reach me: ${f.contact.value.trim()}`);
-  const tank = [f.kind.value, f.water.value !== "Not sure" ? f.water.value : "", f.size.value.trim() ? `about ${f.size.value.trim()}` : ""]
-    .filter(Boolean)
-    .join(", ");
-  if (tank) lines.push(`What needs cleaning: ${tank}`);
-  if (f.city.value) lines.push(`City: ${f.city.value}`);
-  if (f.day.value) lines.push(`Preferred day: ${formatDateLong(f.day.value)}${f.time.value ? ` (${f.time.value})` : ""}`);
-  if (f.code.value.trim()) lines.push(`Discount code: ${f.code.value.trim().toUpperCase()}`);
-  if (f.notes.value.trim()) lines.push("", f.notes.value.trim());
-  return lines.join("\n");
-}
-
 function initForm() {
   const form = $("#requestForm");
   if (!form) return;
+  const f = form.elements;
   const error = $("#formError");
+  const sendBtn = $(".btn-send", form);
 
   $("#clearDay")?.addEventListener("click", () => {
-    form.elements.day.value = "";
-    form.elements.time.value = "";
+    f.day.value = "";
+    f.time.value = "";
     updateChosenDay();
   });
 
+  const showError = (text, withPhone = false) => {
+    error.replaceChildren(document.createTextNode(text));
+    if (withPhone) {
+      const b = settings.business;
+      const a = Object.assign(document.createElement("a"), { href: `tel:${telHref(b.phone)}`, textContent: b.phone });
+      error.append(" Or call or text ", a, ".");
+    }
+    error.hidden = false;
+  };
+
   const validate = () => {
-    const missing = [];
-    if (!form.elements.name.value.trim()) missing.push(form.elements.name);
-    if (!form.elements.contact.value.trim()) missing.push(form.elements.contact);
-    for (const el of [form.elements.name, form.elements.contact]) el.setAttribute("aria-invalid", String(missing.includes(el)));
+    const missing = [f.name, f.contact].filter((el) => !el.value.trim());
+    for (const el of [f.name, f.contact]) el.setAttribute("aria-invalid", String(missing.includes(el)));
     if (missing.length) {
-      error.textContent = `Add your name and a phone number or email so ${firstName()} can reach you.`;
-      error.hidden = false;
+      showError(`Add your name and a phone number or email so ${firstName()} can reach you.`);
       missing[0].focus();
       return false;
     }
@@ -376,56 +370,59 @@ function initForm() {
     return true;
   };
 
-  // Save a copy to the owner's dashboard inbox (once per unique request),
-  // then open the visitor's text or email app so the owner is notified right away.
-  let lastSaved = "";
-  const saveCopy = async (via) => {
-    const f = form.elements;
-    if (f.website.value) return; // spam trap: real people never fill this hidden field
-    const data = {
-      name: f.name.value, contact: f.contact.value, kind: f.kind.value, water: f.water.value,
-      size: f.size.value, city: f.city.value, day: f.day.value, time: f.time.value,
-      code: f.code.value.toUpperCase(), notes: f.notes.value, via,
-    };
-    const key = JSON.stringify({ ...data, via: "" });
-    if (key === lastSaved) return;
-    try {
-      // Don't keep the visitor waiting if the connection is slow.
-      await Promise.race([submitRequest(data), new Promise((_, no) => setTimeout(() => no(new Error("timeout")), 2500))]);
-      lastSaved = key;
-    } catch (err) {
-      console.warn("Request copy not saved:", err);
-    }
+  const showSent = () => {
+    $("#sentDay").textContent = f.day.value ? ` about ${formatDateShort(f.day.value)}` : "";
+    form.classList.add("is-sent");
+    $("#formSent").hidden = false;
+    $("#formSent").focus();
   };
 
-  $$("[data-send]", form).forEach((btn) =>
-    btn.addEventListener("click", async () => {
-      if (!validate()) return;
-      const message = composeMessage(form);
-      const b = settings.business;
-      const via = btn.dataset.send === "sms" ? "text" : "email";
-      btn.disabled = true;
-      await saveCopy(via);
-      btn.disabled = false;
-      if (via === "text") {
-        window.location.href = `sms:${telHref(b.phone)}?&body=${encodeURIComponent(message)}`;
-      } else {
-        const subject = `Cleaning request from ${form.elements.name.value.trim()}`;
-        window.location.href = `mailto:${b.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(message)}`;
-      }
-      $("#formSent").hidden = false;
-    })
-  );
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    if (!validate()) return;
+    // Spam trap: real people never fill this hidden field. Pretend it worked.
+    if (f.website.value) { showSent(); return; }
 
-  // Put the text option first on phones.
-  if (matchMedia("(pointer: coarse)").matches) {
-    const row = $(".send-row", form);
-    const sms = $('[data-send="sms"]', form);
-    const email = $('[data-send="email"]', form);
-    sms.classList.replace("btn-outline", "btn-primary");
-    email.classList.replace("btn-primary", "btn-outline");
-    row.prepend(sms);
-  }
+    sendBtn.disabled = true;
+    sendBtn.textContent = "Sending…";
+    try {
+      const data = {
+        name: f.name.value, contact: f.contact.value, kind: f.kind.value, water: f.water.value,
+        size: f.size.value, city: f.city.value, day: f.day.value, time: f.time.value,
+        code: f.code.value.toUpperCase(), notes: f.notes.value, via: "website",
+      };
+      // Save to the dashboard inbox and alert the owner at the same time.
+      // If either the inbox or the email alert gets it, the request isn't lost.
+      const [saved, alerts] = await Promise.allSettled([
+        Promise.race([
+          submitRequest(data),
+          new Promise((_, fail) => setTimeout(() => fail(new Error("timeout")), 12000)),
+        ]),
+        sendRequestAlerts(data, settings.business.name),
+      ]);
+      if (saved.status === "rejected") console.warn("Inbox save failed:", saved.reason);
+      if (saved.status === "fulfilled" || alerts.value?.email === true) showSent();
+      else showError("Your request didn't go through. Check your connection and try again.", true);
+    } catch (err) {
+      console.warn("Request not sent:", err);
+      showError("Your request didn't go through. Check your connection and try again.", true);
+    } finally {
+      sendBtn.disabled = false;
+      sendBtn.textContent = "Send request";
+    }
+  });
+
+  $("#sendAnother").addEventListener("click", () => {
+    form.reset();
+    f.day.value = ""; // hidden fields don't clear on reset
+    f.time.value = "";
+    updateChosenDay();
+    fillCodeFromGame();
+    form.classList.remove("is-sent");
+    $("#formSent").hidden = true;
+    f.name.focus();
+  });
+
   updateChosenDay();
 }
 

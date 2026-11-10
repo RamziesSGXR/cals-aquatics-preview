@@ -20,7 +20,7 @@ This copy is hidden from Google on purpose (every page has a `noindex` tag) so i
 
 **The game.** Tap algae before it fogs the water. Each level adds more algae and more fish (tapping a fish costs clarity). Clearing the owner's chosen level (default 5, about a minute of play) reveals the discount code; players can keep going for a high score until the water fogs up. Winners can send the code straight into the request form.
 
-**Request form.** When a visitor sends a request, a copy is saved to Cameron's dashboard inbox and their text or email app opens with everything filled in, addressed to him, so he's notified on his phone right away. A hidden spam trap and the database rules keep junk out.
+**Request form.** One "Send request" button saves the request, including the day and time picked on the calendar, to Cameron's dashboard inbox and alerts him by email and phone (see below). If the inbox and the email both fail, the visitor is shown Cameron's number to call or text instead, so a lead is never silently lost. A hidden spam trap and the database rules keep junk out.
 
 ## The owner dashboard
 
@@ -59,6 +59,22 @@ To test it yourself before handing it over, add your own Google address to **bot
 **Is the config safe to publish in a public repo?** Yes. Firebase web config identifies the project; it isn't a password. The security rules are what block everyone except the owner from writing. There are no passwords or secret keys anywhere in this repo.
 
 **Cost:** the free Spark plan covers this easily. Each page view does 2 small database reads, each request is 1 write, and the free tier allows tens of thousands of each per day.
+
+## Get alerts for new requests
+
+Both are free and set in `js/config.js` under `NOTIFY`. Either can be turned off by leaving it empty.
+
+**Email (Web3Forms).** Every request is emailed to Cameron with all the details, and if the customer gave an email address, hitting Reply answers them directly. With the Gmail app on his phone, that's an instant ping.
+1. Go to [web3forms.com](https://web3forms.com), enter `calsperfectionaquatics@gmail.com`, and create an access key. The key arrives by email.
+2. Put it in `web3formsKey` in `js/config.js` (or send it to whoever maintains the site). The key is meant to be public; it can only send to that one inbox.
+3. The free plan covers 250 requests a month.
+
+**Phone alert (ntfy).** A push notification the moment a request comes in, with a button that opens the dashboard.
+1. Install the free **ntfy** app (iPhone or Android).
+2. Tap **+** and subscribe to the topic name in `ntfyTopic` in `js/config.js` (it's `cpa-requests-` followed by random letters).
+3. Alerts say only "New cleaning request" with no customer details, because anyone who knows a topic name can read it, and the name is visible in this public repo.
+
+**Real text messages** aren't free anymore: carriers like Verizon and AT&T shut down the old email-to-text addresses. Proper SMS would need a paid service (for example Twilio) plus Firebase's pay-as-you-go plan, roughly a few dollars a month.
 
 ## Going live
 
@@ -121,9 +137,10 @@ Services, the FAQ, the "how it works" steps, and the service-area city list live
 index.html, about.html, admin.html, 404.html, home/
 css/site.css         site styles
 css/admin.css        dashboard styles
-js/config.js         Firebase settings + owner email list
+js/config.js         Firebase settings, owner email list, request alerts
 js/defaults.js       default content used until the owner saves changes
-js/store.js          loads and saves content (Firebase or preview mode)
+js/store.js          loads and saves content and requests (Firebase or preview mode)
+js/notify.js         email and phone alerts for new requests
 js/calendar.js       availability math shared by the calendar and dashboard
 js/tank.js           the animated tank
 js/game.js           the tank-cleaning game

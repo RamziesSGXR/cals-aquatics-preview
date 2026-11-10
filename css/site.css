@@ -408,9 +408,14 @@ h3 { font-size: 19px; font-weight: 700; line-height: 1.2; }
 .chosen-day { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 8px 10px 8px 14px; margin-bottom: 12px; border-radius: 10px; background: var(--algae-soft); font-weight: 600; font-size: 15px; }
 .chosen-day button { border: 0; background: transparent; color: var(--ink-soft); font: 600 14px var(--body); text-decoration: underline; cursor: pointer; padding: 4px; }
 .form-error { color: var(--danger); font-weight: 600; font-size: 14.5px; margin: 0 0 10px; }
-.send-row { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 4px; }
-.send-row .btn { flex: 1 1 190px; }
-.form-sent { margin: 12px 0 0; padding: 10px 14px; border-radius: 10px; background: var(--clear-2); font-size: 14.5px; color: var(--ink-soft); }
+.form-error a { color: inherit; }
+.btn-send { width: 100%; margin-top: 4px; }
+.request.is-sent > :not(.form-sent) { display: none !important; }
+.form-sent { text-align: center; padding: 18px 6px 6px; }
+.form-sent:focus { outline: none; }
+.form-sent h3 { font-size: 26px; margin-bottom: 6px; }
+.form-sent p { color: var(--ink-soft); margin: 0 auto 16px; max-width: 38ch; }
+.form-sent::before { content: ""; display: block; width: 56px; height: 56px; margin: 0 auto 12px; border-radius: 50%; background: var(--algae-soft) no-repeat center/28px url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%235c9632' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m5 12 5 5 9-10'/%3E%3C/svg%3E"); }
 .form-fineprint { font-size: 13px; color: var(--ink-soft); margin: 10px 0 0; }
 @media (max-width: 900px) { .contact-grid { grid-template-columns: 1fr; } }
 @media (max-width: 520px) { .field-row { grid-template-columns: 1fr; gap: 0; } }

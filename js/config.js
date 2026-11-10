@@ -32,3 +32,18 @@ export const FIREBASE_VERSION = "10.12.2";
 
 export const isFirebaseConfigured = () =>
   Boolean(FIREBASE_CONFIG.apiKey && FIREBASE_CONFIG.projectId);
+
+/* ------------------------------------------------------------------
+   Alerts for new cleaning requests (both optional, both free)
+   - web3formsKey: emails every request to Cameron. Get a key at
+     web3forms.com by entering his email; the key arrives by email.
+     It's made to be public; it only lets the site send to that inbox.
+   - ntfyTopic: buzzes his phone. Install the free "ntfy" app and
+     subscribe to this topic name. Alerts contain no customer details,
+     because anyone who knows a topic name can read it.
+   Leave either one empty to turn it off.
+------------------------------------------------------------------- */
+export const NOTIFY = {
+  web3formsKey: "",
+  ntfyTopic: "cpa-requests-u4fuixqzap2jwk",
+};

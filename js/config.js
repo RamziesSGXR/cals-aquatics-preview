@@ -13,10 +13,12 @@
 ------------------------------------------------------------------- */
 
 export const FIREBASE_CONFIG = {
-  apiKey: "",
-  authDomain: "",
-  projectId: "",
-  appId: "",
+  apiKey: "AIzaSyC9eqGVOhZy42SnLNE_2GUPT1Gy_-mRipk",
+  authDomain: "cals-perfection-aquatics.firebaseapp.com",
+  projectId: "cals-perfection-aquatics",
+  storageBucket: "cals-perfection-aquatics.firebasestorage.app",
+  messagingSenderId: "535622809535",
+  appId: "1:535622809535:web:f61be46b460bfb094a930a",
 };
 
 // Google accounts allowed into the owner dashboard. Keep this list in

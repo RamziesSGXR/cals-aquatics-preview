@@ -6,7 +6,7 @@ import {
   watchAuth, signIn, signOutOwner, isOwnerEmail,
 } from "./store.js";
 import {
-  MONTHS, WEEKDAYS, WEEKDAYS_SHORT, TIME_OPTIONS, monthGrid, todayKey, fromKey, toKey, addDays,
+  MONTHS, WEEKDAYS, WEEKDAYS_SHORT, TIME_OPTIONS, monthGrid, todayKey, fromKey, addDays,
   toMinutes, toHHMM, formatTime, formatRange, formatDateLong, formatDateShort,
   openWindows, blocksOn, newId, pruneBlocks, dayStatus,
 } from "./calendar.js";

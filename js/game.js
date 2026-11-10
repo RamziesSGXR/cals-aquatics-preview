@@ -350,10 +350,6 @@ export function initGame(root, getSettings, { onUseCode } = {}) {
     })
   );
 
-  // Lets automated balance tests read the game state (only with ?gametest in the URL).
-  if (location.search.includes("gametest")) {
-    window.__tankGame = () => ({ state, score, level, clarity, algae: algae.map((a) => ({ x: a.x, y: a.y, r: a.r })) });
-  }
 
   return { open, close };
 }

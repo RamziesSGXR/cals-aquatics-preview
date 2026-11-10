@@ -267,6 +267,18 @@ p { margin: 0 0 1em; }
   .lb-next { right: calc(50% - 60px); }
 }
 
+.job-feature { display: grid; grid-template-columns: 260px minmax(0, 1fr); gap: 28px; align-items: center; max-width: 760px; margin: 0 0 32px; padding: 16px; background: var(--clear); border: 1px solid var(--line); border-radius: 22px; }
+.job-feature-photo { aspect-ratio: 1 / 1; }
+.job-feature-photo img { height: 100%; object-fit: cover; object-position: 50% 35%; }
+.job-feature-photo .g-cap { display: none; }
+.job-feature-text h3 { font-size: 24px; margin-bottom: 8px; }
+.job-feature-text p { margin: 0; color: var(--ink-soft); font-size: 17px; }
+@media (max-width: 560px) {
+  .job-feature { grid-template-columns: 110px minmax(0, 1fr); gap: 16px; padding: 12px; }
+  .job-feature-text h3 { font-size: 20px; margin-bottom: 4px; }
+  .job-feature-text p { font-size: 15px; line-height: 1.5; }
+}
+
 /* ---------------- meet / about ---------------- */
 
 .meet-grid { display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 7fr); gap: clamp(32px, 6vw, 80px); align-items: center; }

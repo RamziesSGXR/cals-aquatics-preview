@@ -25,7 +25,7 @@ export const DEFAULT_SETTINGS = {
     winLevel: 5,
   },
   about: {
-    photoUrl: "",
+    photoUrl: "images/cameron.jpg",
     bio:
       "Cal's Perfection Aquatics is run by Cameron Latimer. It started with a passion for pristine, thriving aquariums, and grew to cover ponds, water features, and just about every kind of aquatic setup in between.\n\n" +
       "The goal is simple: take the stress out of aquarium maintenance. Freshwater, brackish, or saltwater, Cameron handles the cleaning, the water testing, and the regular upkeep so you can just enjoy the view.\n\n" +

@@ -96,14 +96,20 @@ function applySettings() {
     const img = $("img", fig);
     const mono = $(".monogram", fig);
     if (mono) mono.textContent = initials(b.owner);
+    const showMonogram = () => {
+      img.hidden = true;
+      if (mono) mono.hidden = false;
+      fig.classList.remove("has-photo");
+    };
     if (url) {
-      img.src = url;
+      img.onerror = showMonogram;
+      if (img.getAttribute("src") !== url) img.src = url;
       img.alt = `${b.owner}, owner of ${b.name}`;
       img.hidden = false;
       if (mono) mono.hidden = true;
+      fig.classList.add("has-photo");
     } else {
-      img.hidden = true;
-      if (mono) mono.hidden = false;
+      showMonogram();
     }
   });
 
@@ -413,6 +419,44 @@ function initGameHooks() {
   if (location.hash === "#play") game.open();
 }
 
+/* ---------------- work gallery ---------------- */
+
+function initGallery() {
+  const items = $$(".g-item");
+  const box = $("#lightbox");
+  if (!items.length || !box || typeof box.showModal !== "function") return;
+  const img = $("#lbImg"), cap = $("#lbCap");
+  let index = 0;
+  const show = (i) => {
+    index = (i + items.length) % items.length;
+    const it = items[index];
+    const thumb = $("img", it);
+    img.src = it.dataset.full;
+    img.width = Number(it.dataset.w);
+    img.height = Number(it.dataset.h);
+    img.alt = thumb.alt;
+    cap.textContent = `${$(".g-cap", it).textContent}  (${index + 1} of ${items.length})`;
+  };
+  items.forEach((it, i) => it.addEventListener("click", () => { show(i); box.showModal(); }));
+  $("#lbPrev").addEventListener("click", () => show(index - 1));
+  $("#lbNext").addEventListener("click", () => show(index + 1));
+  $("#lbClose").addEventListener("click", () => box.close());
+  box.addEventListener("click", (e) => { if (e.target === box) box.close(); });
+  box.addEventListener("keydown", (e) => {
+    if (e.key === "ArrowLeft") show(index - 1);
+    if (e.key === "ArrowRight") show(index + 1);
+  });
+  box.addEventListener("close", () => items[index].focus());
+  let startX = null;
+  box.addEventListener("touchstart", (e) => (startX = e.touches[0].clientX), { passive: true });
+  box.addEventListener("touchend", (e) => {
+    if (startX === null) return;
+    const dx = e.changedTouches[0].clientX - startX;
+    if (Math.abs(dx) > 50) show(index + (dx < 0 ? 1 : -1));
+    startX = null;
+  });
+}
+
 /* ---------------- boot ---------------- */
 
 function boot() {
@@ -422,6 +466,7 @@ function boot() {
   initHeroTank();
   initCalendar();
   initForm();
+  initGallery();
   initGameHooks();
 
   Promise.all([loadSettings(), loadAvailability()]).then(([s, a]) => {

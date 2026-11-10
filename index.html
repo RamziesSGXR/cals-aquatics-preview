@@ -11,7 +11,7 @@
 
   <link rel="canonical" href="https://ramziessgxr.github.io/cals-aquatics-preview/">
   <meta name="theme-color" content="#062a33">
-  <link rel="icon" href="images/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="images/favicon.png" type="image/png">
   <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
 
   <meta property="og:type" content="website">
@@ -40,11 +40,15 @@
         "slogan": "Fish need plumbing services too.",
         "description": "Aquarium, pond, and water feature cleaning and maintenance in Spokane and the greater Spokane area. Freshwater, brackish, and saltwater.",
         "url": "https://ramziessgxr.github.io/cals-aquatics-preview/",
-        "image": "https://ramziessgxr.github.io/cals-aquatics-preview/images/og-image.jpg",
+        "image": [
+          "https://ramziessgxr.github.io/cals-aquatics-preview/images/og-image.jpg",
+          "https://ramziessgxr.github.io/cals-aquatics-preview/images/work/living-room-tank.jpg",
+          "https://ramziessgxr.github.io/cals-aquatics-preview/images/work/backyard-pond.jpg"
+        ],
         "logo": "https://ramziessgxr.github.io/cals-aquatics-preview/images/logo-512.png",
         "telephone": "+1-509-828-9399",
         "email": "calsperfectionaquatics@gmail.com",
-        "founder": { "@type": "Person", "name": "Cameron Latimer" },
+        "founder": { "@type": "Person", "name": "Cameron Latimer", "image": "https://ramziessgxr.github.io/cals-aquatics-preview/images/cameron.jpg" },
         "address": { "@type": "PostalAddress", "addressLocality": "Spokane Valley", "addressRegion": "WA", "addressCountry": "US" },
         "areaServed": [
           { "@type": "City", "name": "Spokane, WA" },
@@ -94,7 +98,7 @@
     <div class="announce" id="announce" role="status" hidden><span id="announceText"></span></div>
     <nav class="wrap nav-inner" aria-label="Main">
       <a class="brand" href="./" aria-label="Cal's Perfection Aquatics home">
-        <svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="20" fill="#0e7372"/><path d="M8 21c3-5.5 12-6.5 17-1.5l6-4.5v12l-6-4.5c-5 5-14 4-17-1.5z" fill="#f2714b"/><circle cx="12.6" cy="20.2" r="1.4" fill="#062a33"/><circle cx="27" cy="9" r="2.1" fill="none" stroke="#eaf6f4" stroke-width="1.4"/><circle cx="31.5" cy="5.6" r="1.2" fill="none" stroke="#eaf6f4" stroke-width="1.2"/></svg>
+        <img class="brand-logo" src="images/logo-128.png" alt="" width="40" height="40">
         <span>Cal's Perfection Aquatics</span>
       </a>
       <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="navMenu" aria-label="Menu">
@@ -102,6 +106,7 @@
       </button>
       <ul class="nav-menu" id="navMenu">
         <li><a href="#services">Services</a></li>
+        <li><a href="#work">Our work</a></li>
         <li><a href="about.html">About</a></li>
         <li><a href="#availability">Availability</a></li>
         <li><a href="#faq">FAQ</a></li>
@@ -192,11 +197,32 @@
       </div>
     </section>
 
+    <section class="section work" id="work" aria-labelledby="workTitle">
+      <div class="wrap">
+        <div class="section-head">
+          <h2 id="workTitle">Recent work</h2>
+          <p>A few of <span data-owner-first>Cameron</span>'s jobs: aquariums big and small, planted tanks, and backyard ponds.</p>
+        </div>
+        <ul class="gallery">
+          <li><button type="button" class="g-item" data-index="0" data-full="images/work/living-room-tank.jpg" data-w="1290" data-h="840"><img src="images/work/living-room-tank-800.jpg" alt="Large living-room aquarium with smooth river rock, driftwood, and colorful fish over bright blue gravel" width="800" height="521" loading="lazy" decoding="async"><span class="g-cap">Living-room showpiece</span></button></li>
+          <li><button type="button" class="g-item" data-index="1" data-full="images/work/rock-driftwood-tank.jpg" data-w="1600" data-h="646"><img src="images/work/rock-driftwood-tank-800.jpg" alt="Clear planted aquarium with river rocks, driftwood, and small schooling fish" width="800" height="323" loading="lazy" decoding="async"><span class="g-cap">Rock and driftwood aquascape</span></button></li>
+          <li><button type="button" class="g-item" data-index="2" data-full="images/work/backyard-pond.jpg" data-w="1600" data-h="880"><img src="images/work/backyard-pond-800.jpg" alt="Backyard pond with a stone waterfall, surrounded by plants and garden lights" width="800" height="440" loading="lazy" decoding="async"><span class="g-cap">Backyard pond and waterfall</span></button></li>
+          <li><button type="button" class="g-item" data-index="3" data-full="images/work/red-truck-tank.jpg" data-w="1600" data-h="703"><img src="images/work/red-truck-tank-800.jpg" alt="Planted aquarium with a red toy truck on a rock ledge and white sand" width="800" height="352" loading="lazy" decoding="async"><span class="g-cap">Planted tank with a red-truck centerpiece</span></button></li>
+          <li><button type="button" class="g-item" data-index="4" data-full="images/work/angelfish-tank.jpg" data-w="1600" data-h="638"><img src="images/work/angelfish-tank-800.jpg" alt="Planted freshwater aquarium with angelfish, driftwood, and a submarine ornament" width="800" height="319" loading="lazy" decoding="async"><span class="g-cap">Planted tank with angelfish</span></button></li>
+          <li><button type="button" class="g-item" data-index="5" data-full="images/work/business-planted-tank.jpg" data-w="1100" data-h="820"><img src="images/work/business-planted-tank-800.jpg" alt="Lush planted aquarium on a wood cabinet in a business lobby" width="800" height="596" loading="lazy" decoding="async"><span class="g-cap">Planted tank at a local business</span></button></li>
+          <li><button type="button" class="g-item" data-index="6" data-full="images/work/planted-cube.jpg" data-w="904" data-h="1130"><img src="images/work/planted-cube-800.jpg" alt="Glass cube aquarium with driftwood and small plants under a grow light" width="800" height="1000" loading="lazy" decoding="async"><span class="g-cap">Planted cube tank</span></button></li>
+          <li><button type="button" class="g-item" data-index="7" data-full="images/work/fresh-setup.jpg" data-w="1310" data-h="760"><img src="images/work/fresh-setup-800.jpg" alt="Freshly cleaned aquarium with green plants and petrified wood rock on a dresser" width="800" height="464" loading="lazy" decoding="async"><span class="g-cap">Clean and ready</span></button></li>
+          <li><button type="button" class="g-item" data-index="8" data-full="images/work/cleaning-day.jpg" data-w="1360" data-h="924"><img src="images/work/cleaning-day-800.jpg" alt="Built-in corner aquarium during a cleaning, with siphon hoses and a bucket" width="800" height="544" loading="lazy" decoding="async"><span class="g-cap">Cleaning day at a built-in tank</span></button></li>
+          <li><button type="button" class="g-item" data-index="9" data-full="images/work/holiday-centerpiece.jpg" data-w="1180" data-h="710"><img src="images/work/holiday-centerpiece-800.jpg" alt="Large aquarium as the centerpiece of a living room decorated for the holidays" width="800" height="481" loading="lazy" decoding="async"><span class="g-cap">Holiday centerpiece</span></button></li>
+        </ul>
+      </div>
+    </section>
+
     <section class="section meet" id="about" aria-labelledby="meetTitle">
       <div class="wrap meet-grid">
-        <figure class="portrait" data-portrait>
-          <img alt="" hidden>
-          <span class="monogram" aria-hidden="true">CL</span>
+        <figure class="portrait has-photo" data-portrait>
+          <img src="images/cameron.jpg" alt="Cameron Latimer, owner of Cal's Perfection Aquatics" width="900" height="900">
+          <span class="monogram" aria-hidden="true" hidden>CL</span>
         </figure>
         <div class="meet-copy">
           <h2 id="meetTitle">Meet <span data-owner>Cameron Latimer</span></h2>
@@ -341,7 +367,7 @@
     <div class="wrap footer-grid">
       <div class="footer-brand">
         <a class="brand" href="./">
-          <svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="20" fill="#0e7372"/><path d="M8 21c3-5.5 12-6.5 17-1.5l6-4.5v12l-6-4.5c-5 5-14 4-17-1.5z" fill="#f2714b"/><circle cx="12.6" cy="20.2" r="1.4" fill="#062a33"/><circle cx="27" cy="9" r="2.1" fill="none" stroke="#eaf6f4" stroke-width="1.4"/><circle cx="31.5" cy="5.6" r="1.2" fill="none" stroke="#eaf6f4" stroke-width="1.2"/></svg>
+          <img class="brand-logo" src="images/logo-128.png" alt="" width="40" height="40">
           <span>Cal's Perfection Aquatics</span>
         </a>
         <p>Aquarium, pond, and water feature cleaning in Spokane and the greater Spokane area.</p>
@@ -369,6 +395,16 @@
       <a href="admin.html" rel="nofollow">Owner login</a>
     </div>
   </footer>
+
+  <dialog class="lightbox" id="lightbox" aria-label="Photo viewer">
+    <figure>
+      <img id="lbImg" alt="">
+      <figcaption id="lbCap"></figcaption>
+    </figure>
+    <button class="lb-btn lb-close" type="button" id="lbClose" aria-label="Close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+    <button class="lb-btn lb-prev" type="button" id="lbPrev" aria-label="Previous photo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m15 5-7 7 7 7"/></svg></button>
+    <button class="lb-btn lb-next" type="button" id="lbNext" aria-label="Next photo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m9 5 7 7-7 7"/></svg></button>
+  </dialog>
 
   <!-- Tank game -->
   <div class="game" id="game" role="dialog" aria-modal="true" aria-label="Tank cleaning game" hidden>

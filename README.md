@@ -13,7 +13,7 @@ This copy is hidden from Google on purpose (every page has a `noindex` tag) so i
 
 | Page | What it does |
 |---|---|
-| `index.html` | Home: animated tank hero, services, how it works, meet Cameron, availability calendar, game, FAQ, request form |
+| `index.html` | Home: animated tank hero, services, how it works, recent work gallery, meet Cameron, availability calendar, game, FAQ, request form |
 | `about.html` | Cameron's story, quick facts, what he works on, service area |
 | `admin.html` | Owner dashboard (sign-in required once Firebase is connected) |
 | `home/` | Redirects the old Google Sites `/home` link to the new homepage |
@@ -91,12 +91,18 @@ For a local service business, most of the ranking comes from outside the website
 1. **Google Business Profile.** This is what shows up for "aquarium cleaning near me" and in Google Maps. Set it up as a *service-area business* (hide the home address), list the same cities as the site, add the website link, hours, and services, and pick the closest primary category Google offers for aquarium and pond work.
 2. **Reviews.** Ask every happy customer for a Google review, ideally the same day, with a direct link. Reply to every one. Review count and recency matter a lot locally.
 3. **Consistent name, phone, and website everywhere.** Google, Yelp, Facebook, Nextdoor, Bing Places, and Apple Business Connect should all match the site exactly.
-4. **Real photos.** Before-and-after shots are the best content this business has. Post them to the Google profile regularly, and add a photo of Cameron to the About page (dashboard → About page → Photo link; drop the image in `images/` and use `images/filename.jpg`).
+4. **Real photos.** Before-and-after shots are the best content this business has. Post them to the Google profile regularly, and keep adding to the site's Recent work gallery (see below).
 5. **Grow the content slowly and genuinely.** Good next pages: a pond and water feature page with photos, and a short guide like "How often should you clean a fish tank?". Avoid thin copy-paste pages for each city; Google treats those as spam.
 6. **Local links.** Local fish stores, pet shops, vets, the Spokane chamber of commerce, and neighborhood groups. One real local link beats dozens of directory listings.
 7. **Watch Search Console** after launch to see which searches bring people in, and write toward those.
 
 Skip anything that promises fast rankings: bought links, keyword stuffing, or incentivized and fake reviews. They backfire.
+
+## Adding photos to the gallery
+
+Gallery photos live in `images/work/`, each in two sizes: `name.jpg` (about 1600px wide) and `name-800.jpg` (800px wide). To add one, save both sizes there, then copy one of the `<li>` lines in the Recent work section of `index.html` and update the file names, sizes, caption, and description (`alt`). Describe what's in the photo in the `alt` text; it helps both screen-reader users and Google Images.
+
+Phone photos look best cropped tight to the tank, with the phone's watermark and clutter (buckets, towels) cropped out.
 
 ## Editing things that aren't in the dashboard
 

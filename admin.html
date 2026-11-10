@@ -7,6 +7,12 @@
   <meta name="robots" content="noindex, nofollow">
   <meta name="theme-color" content="#062a33">
   <link rel="icon" href="images/favicon.png" type="image/png">
+  <link rel="manifest" href="dashboard.webmanifest">
+  <link rel="apple-touch-icon" href="images/app-icon-192.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="CPA">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <link rel="preload" href="fonts/baloo-2-latin-800-normal.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="fonts/baloo-2-latin-700-normal.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="fonts/figtree-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
@@ -66,6 +72,26 @@
         <ul class="status-list" id="statusList"></ul>
         <h2 class="sub-title">Coming up</h2>
         <ul class="upcoming" id="upcoming"></ul>
+
+        <h2 class="sub-title">Set up your phone</h2>
+        <div class="phone-setup">
+          <div class="card setup-step">
+            <h3>1. Put this dashboard on your home screen</h3>
+            <p class="card-help" id="installDone" hidden>Done. You're using the dashboard as an app.</p>
+            <div id="installHow">
+              <button class="btn btn-primary btn-sm" type="button" id="installBtn" hidden>Install the dashboard app</button>
+              <p class="card-help" id="installIos"><strong>iPhone:</strong> open this page in Safari, tap the Share button (the square with an arrow), then <strong>Add to Home Screen</strong>.</p>
+              <p class="card-help" id="installAndroid"><strong>Android:</strong> open this page in Chrome, tap the <strong>⋮</strong> menu, then <strong>Add to Home screen</strong> or <strong>Install app</strong>.</p>
+              <p class="card-help">It opens straight to your requests with the CPA icon. Sign in once inside it.</p>
+            </div>
+          </div>
+          <div class="card setup-step" id="alertsStep">
+            <h3>2. Get a buzz when a request comes in</h3>
+            <p class="card-help">Install the free <strong>ntfy</strong> app (<a href="https://ntfy.sh" target="_blank" rel="noopener">ntfy.sh</a> has links for iPhone and Android), tap <strong>+</strong>, and subscribe to this name:</p>
+            <div class="topic-row"><code id="topicName"></code><button class="btn btn-outline btn-sm" type="button" id="copyTopic">Copy</button></div>
+            <p class="card-help">Alerts just say "New cleaning request." Tap one to open your inbox.</p>
+          </div>
+        </div>
       </section>
 
       <!-- Requests -->

@@ -11,6 +11,7 @@ import {
   toMinutes, toHHMM, formatTime, formatRange, formatDateLong, formatDateShort,
   openWindows, blocksOn, newId, pruneBlocks, dayStatus,
 } from "./calendar.js";
+import { NOTIFY } from "./config.js";
 
 const $ = (sel, root = document) => root.querySelector(sel);
 const $$ = (sel, root = document) => [...root.querySelectorAll(sel)];
@@ -660,6 +661,43 @@ function initRequests() {
   document.addEventListener("visibilitychange", () => { if (document.visibilityState === "visible") refreshRequests({ quiet: true }); });
 }
 
+/* ---------------- phone setup ---------------- */
+
+let installPrompt = null;
+window.addEventListener("beforeinstallprompt", (e) => {
+  // Android/desktop Chrome: show our own Install button instead of the browser's mini bar.
+  e.preventDefault();
+  installPrompt = e;
+  $("#installBtn").hidden = false;
+});
+
+function initPhoneSetup() {
+  const standalone = matchMedia("(display-mode: standalone)").matches || navigator.standalone === true;
+  $("#installDone").hidden = !standalone;
+  $("#installHow").hidden = standalone;
+  const ua = navigator.userAgent;
+  const isIos = /iPhone|iPad|iPod/.test(ua) || (ua.includes("Macintosh") && navigator.maxTouchPoints > 1);
+  const isAndroid = /Android/.test(ua);
+  // Show only the relevant instructions on a phone; show both on a computer.
+  $("#installIos").hidden = isAndroid;
+  $("#installAndroid").hidden = isIos;
+  $("#installBtn").addEventListener("click", async () => {
+    if (!installPrompt) return;
+    installPrompt.prompt();
+    await installPrompt.userChoice;
+    installPrompt = null;
+    $("#installBtn").hidden = true;
+  });
+  window.addEventListener("appinstalled", () => toast("Dashboard installed. Look for the CPA icon on your home screen."));
+
+  $("#alertsStep").hidden = !NOTIFY.ntfyTopic;
+  $("#topicName").textContent = NOTIFY.ntfyTopic;
+  $("#copyTopic").addEventListener("click", async () => {
+    try { await navigator.clipboard.writeText(NOTIFY.ntfyTopic); toast("Copied. Paste it in the ntfy app."); }
+    catch { toast(`Topic name: ${NOTIFY.ntfyTopic}`); }
+  });
+}
+
 /* ---------------- boot ---------------- */
 
 function renderAll() {
@@ -684,6 +722,7 @@ async function openDashboard() {
     initBindings();
     initAvailability();
     initRequests();
+    initPhoneSetup();
     $("#saveBtn").addEventListener("click", save);
     $("#discardBtn").addEventListener("click", discard);
   }

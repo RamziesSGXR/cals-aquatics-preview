@@ -1,0 +1,14 @@
+{
+  "name": "CPA Dashboard",
+  "short_name": "CPA",
+  "description": "Cal's Perfection Aquatics owner dashboard: requests, availability, and site settings.",
+  "start_url": "admin.html?app=1",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#062a33",
+  "theme_color": "#062a33",
+  "icons": [
+    { "src": "images/app-icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
+    { "src": "images/app-icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ]
+}

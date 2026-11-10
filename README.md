@@ -38,6 +38,12 @@ Customers only ever see *open*, *partly booked*, or *booked*. They never see why
 
 Only Cameron can read requests. Visitors can send one, but the database rules stop anyone else from reading, changing, or deleting them.
 
+### On his phone
+
+No app store needed:
+- **Dashboard as an app:** open the dashboard on the phone, then on iPhone use Safari's Share button and **Add to Home Screen**, or on Android use Chrome's **⋮** menu and **Install app**. It gets the CPA icon, opens full screen, and lands on the Requests inbox when someone is waiting. He signs in once inside it.
+- **Alerts:** the free ntfy app buzzes his phone for each new request (see "Get alerts for new requests"). The dashboard's Overview tab has a **Set up your phone** card with both steps and a Copy button for the alert channel name.
+
 ### Preview mode vs. live
 
 Until Firebase is connected, the dashboard runs in **preview mode**: everything works, but changes are saved only in the browser you're using. That's good for demoing; it does not change what visitors see. The same goes for requests: in preview mode, the inbox only shows requests sent from that same browser. A yellow banner makes this obvious.
@@ -135,6 +141,7 @@ Services, the FAQ, the "how it works" steps, and the service-area city list live
 
 ```
 index.html, about.html, admin.html, 404.html, home/
+dashboard.webmanifest  lets the dashboard be added to a phone's home screen as an app
 css/site.css         site styles
 css/admin.css        dashboard styles
 js/config.js         Firebase settings, owner email list, request alerts

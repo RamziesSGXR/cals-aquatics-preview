@@ -2,8 +2,8 @@
 
 A rebuild of [calsperfectionaquatics.com](https://www.calsperfectionaquatics.com/) with a playable tank-cleaning game, a public availability calendar, and an owner dashboard.
 
-**Preview:** https://ramziessgxr.github.io/cals-aquatics-preview/
-**Owner dashboard:** https://ramziessgxr.github.io/cals-aquatics-preview/admin.html
+**Site:** https://calsaquatics.com (preview until launch: https://ramziessgxr.github.io/cals-aquatics-preview/)
+**Owner dashboard:** https://calsaquatics.com/admin.html
 
 This copy is hidden from Google on purpose (every page has a `noindex` tag) so it doesn't compete with the real site while it's a preview. See [Going live](#going-live).
 
@@ -84,19 +84,27 @@ Both are free and set in `js/config.js` under `NOTIFY`. Either can be turned off
 
 ## Going live
 
-When Cameron is happy with it and wants it on calsperfectionaquatics.com:
+The site's home is **calsaquatics.com** (all links, the sitemap, and Google's structured data already use it). The old **calsperfectionaquatics.com** forwards to it so the truck banner and old links keep working.
 
-1. **Move the repo to Cameron.** He makes a GitHub account, then in this repo: Settings → General → Danger Zone → **Transfer ownership**. (Or he forks it.) His business site shouldn't depend on someone else's account.
-2. **Remove the preview `noindex` lines** from `index.html` and `about.html` (search for `PREVIEW ONLY`). Leave the one in `admin.html`.
-3. **Swap the preview address for the real one.** Find and replace `https://ramziessgxr.github.io/cals-aquatics-preview/` with `https://www.calsperfectionaquatics.com/` in `index.html`, `about.html`, `sitemap.xml`, `robots.txt`, and `404.html`.
-4. **Point the domain at GitHub Pages.** In the repo: Settings → Pages → Custom domain → `www.calsperfectionaquatics.com`, and tick *Enforce HTTPS* once it's offered. At the domain registrar (Squarespace Domains if it was bought through Google Domains):
-   - `CNAME` record: `www` → `<github-username>.github.io`
-   - `A` records for the bare domain: `185.199.108.153`, `185.199.109.153`, `185.199.110.153`, `185.199.111.153`
-   - Remove the old Google Sites custom URL mapping.
-5. **Add both domains** to Firebase → Authentication → Authorized domains.
-6. **Google Search Console:** add the domain, verify with DNS, and submit `https://www.calsperfectionaquatics.com/sitemap.xml`.
+1. **DNS for calsaquatics.com** (at the registrar where it was bought): remove any parking/forwarding records for the bare domain, then add:
 
-The old Google Sites homepage was at `/home`; the `home/` folder forwards those old links to the new homepage.
+   | Type | Name | Value |
+   |---|---|---|
+   | A | `@` | `185.199.108.153` |
+   | A | `@` | `185.199.109.153` |
+   | A | `@` | `185.199.110.153` |
+   | A | `@` | `185.199.111.153` |
+   | CNAME | `www` | `<github-username>.github.io` (currently `ramziessgxr.github.io`) |
+
+   Optional but recommended: verify the domain in GitHub (profile picture → Settings → Pages → Add a domain) and add the TXT record it gives you. That stops anyone else from ever claiming it on GitHub.
+2. **Connect it in GitHub:** repo → Settings → Pages → Custom domain → `calsaquatics.com` → Save (this creates a `CNAME` file in the repo). When the check turns green, tick **Enforce HTTPS** (can take up to an hour or so to be offered).
+3. **Let Google in:** remove the `PREVIEW ONLY` noindex lines from `index.html` and `about.html` (leave the one in `admin.html`).
+4. **Firebase:** Authentication → Settings → Authorized domains → add `calsaquatics.com` and `www.calsaquatics.com`.
+5. **Old domain:** at the place that manages calsperfectionaquatics.com (its DNS is on Google-run nameservers, most likely Squarespace Domains), set up a **permanent (301) forward** to `https://calsaquatics.com`, and remove the custom domain from the old Google Site (Settings → Custom domains).
+6. **Google Search Console:** add `calsaquatics.com` as a Domain property (verify with the TXT record it gives you), then submit `https://calsaquatics.com/sitemap.xml`. If the old domain was ever added there, use its "Change of address" tool to point it at the new one.
+7. **Update listings** so everything matches: Google Business Profile, Yelp, Facebook, the truck banner, and business cards.
+
+If the repo moves to Cameron's GitHub account, the `www` CNAME points to his username instead, and the custom domain is set again in the new repo's Pages settings.
 
 ## SEO
 

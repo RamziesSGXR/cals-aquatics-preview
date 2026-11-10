@@ -2,7 +2,7 @@
    Public pages: fills in owner-editable content, runs the hero tank,
    the availability calendar, the request form, and the game.
 ------------------------------------------------------------------- */
-import { cachedSettings, cachedAvailability, loadSettings, loadAvailability } from "./store.js";
+import { cachedSettings, cachedAvailability, loadSettings, loadAvailability, submitRequest } from "./store.js";
 import { createTank } from "./tank.js";
 import { initGame, getWonCode } from "./game.js";
 import {
@@ -376,12 +376,38 @@ function initForm() {
     return true;
   };
 
+  // Save a copy to the owner's dashboard inbox (once per unique request),
+  // then open the visitor's text or email app so the owner is notified right away.
+  let lastSaved = "";
+  const saveCopy = async (via) => {
+    const f = form.elements;
+    if (f.website.value) return; // spam trap: real people never fill this hidden field
+    const data = {
+      name: f.name.value, contact: f.contact.value, kind: f.kind.value, water: f.water.value,
+      size: f.size.value, city: f.city.value, day: f.day.value, time: f.time.value,
+      code: f.code.value.toUpperCase(), notes: f.notes.value, via,
+    };
+    const key = JSON.stringify({ ...data, via: "" });
+    if (key === lastSaved) return;
+    try {
+      // Don't keep the visitor waiting if the connection is slow.
+      await Promise.race([submitRequest(data), new Promise((_, no) => setTimeout(() => no(new Error("timeout")), 2500))]);
+      lastSaved = key;
+    } catch (err) {
+      console.warn("Request copy not saved:", err);
+    }
+  };
+
   $$("[data-send]", form).forEach((btn) =>
-    btn.addEventListener("click", () => {
+    btn.addEventListener("click", async () => {
       if (!validate()) return;
       const message = composeMessage(form);
       const b = settings.business;
-      if (btn.dataset.send === "sms") {
+      const via = btn.dataset.send === "sms" ? "text" : "email";
+      btn.disabled = true;
+      await saveCopy(via);
+      btn.disabled = false;
+      if (via === "text") {
         window.location.href = `sms:${telHref(b.phone)}?&body=${encodeURIComponent(message)}`;
       } else {
         const subject = `Cleaning request from ${form.elements.name.value.trim()}`;

@@ -1,8 +1,9 @@
 rules_version = '2';
 
 // Paste this into Firebase console → Firestore Database → Rules, then Publish.
-// Anyone can READ the site content (it's shown on the public website).
-// Only the Google accounts listed in isOwner() can CHANGE it.
+// - Site content (settings, availability): anyone can READ, only the owner can CHANGE.
+// - Cleaning requests: anyone can SEND one from the website form,
+//   only the owner can READ, update, or delete them.
 service cloud.firestore {
   match /databases/{database}/documents {
 
@@ -20,6 +21,38 @@ service cloud.firestore {
       allow write: if isOwner()
         && docId in ['settings', 'availability']
         && request.resource.data.size() < 20;  // sanity check on top-level fields
+    }
+
+    function shortText(v, max) {
+      return v is string && v.size() <= max;
+    }
+
+    match /requests/{id} {
+      // New requests from the public form: fixed fields, sane sizes, always "new".
+      allow create: if request.resource.data.keys().hasOnly([
+            'name', 'contact', 'kind', 'water', 'size', 'city', 'day', 'time', 'code', 'notes', 'via',
+            'status', 'createdAt'])
+        && request.resource.data.keys().hasAll(['name', 'contact', 'status', 'createdAt'])
+        && request.resource.data.status == 'new'
+        && request.resource.data.createdAt == request.time
+        && shortText(request.resource.data.name, 80) && request.resource.data.name.size() > 0
+        && shortText(request.resource.data.contact, 120) && request.resource.data.contact.size() > 2
+        && shortText(request.resource.data.get('kind', ''), 80)
+        && shortText(request.resource.data.get('water', ''), 80)
+        && shortText(request.resource.data.get('size', ''), 80)
+        && shortText(request.resource.data.get('city', ''), 80)
+        && shortText(request.resource.data.get('day', ''), 80)
+        && shortText(request.resource.data.get('time', ''), 80)
+        && shortText(request.resource.data.get('code', ''), 80)
+        && shortText(request.resource.data.get('notes', ''), 1000)
+        && shortText(request.resource.data.get('via', ''), 80);
+
+      allow read, delete: if isOwner();
+
+      // The owner can only change the status fields.
+      allow update: if isOwner()
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['status', 'contactedAt', 'doneAt'])
+        && request.resource.data.status in ['new', 'contacted', 'done'];
     }
 
     // Everything else is closed.

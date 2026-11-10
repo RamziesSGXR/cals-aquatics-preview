@@ -51,6 +51,7 @@
     <div class="dash" id="dash" hidden>
       <div class="tabs" role="tablist" aria-label="Dashboard sections">
         <button role="tab" type="button" id="tab-overview" aria-controls="panel-overview" aria-selected="true">Overview</button>
+        <button role="tab" type="button" id="tab-requests" aria-controls="panel-requests" aria-selected="false">Requests <span class="tab-badge" id="reqBadge" hidden></span></button>
         <button role="tab" type="button" id="tab-availability" aria-controls="panel-availability" aria-selected="false">Availability</button>
         <button role="tab" type="button" id="tab-discount" aria-controls="panel-discount" aria-selected="false">Discount &amp; game</button>
         <button role="tab" type="button" id="tab-business" aria-controls="panel-business" aria-selected="false">Contact info</button>
@@ -65,6 +66,23 @@
         <ul class="status-list" id="statusList"></ul>
         <h2 class="sub-title">Coming up</h2>
         <ul class="upcoming" id="upcoming"></ul>
+      </section>
+
+      <!-- Requests -->
+      <section class="panel" role="tabpanel" id="panel-requests" aria-labelledby="tab-requests" hidden>
+        <div class="panel-head-row">
+          <h1 class="panel-title">Requests</h1>
+          <button class="btn btn-outline btn-sm" type="button" id="reqRefresh">Refresh</button>
+        </div>
+        <p class="panel-lead">Cleaning requests sent from the website. Calling, texting, or emailing someone from here marks them as contacted.</p>
+        <div class="req-filters" role="group" aria-label="Show requests">
+          <button type="button" data-filter="new" aria-pressed="true">New <span data-count="new"></span></button>
+          <button type="button" data-filter="contacted" aria-pressed="false">Contacted <span data-count="contacted"></span></button>
+          <button type="button" data-filter="done" aria-pressed="false">Done <span data-count="done"></span></button>
+          <button type="button" data-filter="all" aria-pressed="false">All <span data-count="all"></span></button>
+        </div>
+        <p class="req-error" id="reqError" role="alert" hidden></p>
+        <ul class="req-list" id="reqList" aria-live="polite"></ul>
       </section>
 
       <!-- Availability -->

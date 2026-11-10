@@ -4,6 +4,7 @@
 import {
   mode, loadSettings, loadAvailability, saveSettings, saveAvailability, resetPreview,
   watchAuth, signIn, signOutOwner, isOwnerEmail,
+  listRequests, updateRequest, deleteRequest,
 } from "./store.js";
 import {
   MONTHS, WEEKDAYS, WEEKDAYS_SHORT, TIME_OPTIONS, monthGrid, todayKey, fromKey, addDays,
@@ -158,7 +159,12 @@ function renderOverview() {
   const ann = s.announcement;
   const annText = ann.enabled && ann.text.trim() ? `Showing: "${ann.text.trim()}"` : "Off";
 
+  const newCount = requests.filter((r) => r.status === "new").length;
+  const reqText = requestsLoaded
+    ? (newCount ? `${newCount} new, waiting for a reply` : "No new requests")
+    : "Loading…";
   $("#statusList").replaceChildren(
+    statusItem("Requests", reqText, "requests", newCount ? "alert" : ""),
     statusItem("Discount", discountText, "discount", d.enabled ? "on" : ""),
     statusItem("Next two weeks", availText, "availability"),
     statusItem("Announcement", annText, "announce", ann.enabled ? "on" : ""),
@@ -467,6 +473,192 @@ function discard() {
   toast("Changes discarded.");
 }
 
+/* ---------------- requests inbox ---------------- */
+
+let requests = [];
+let requestsLoaded = false;
+let reqFilter = "new";
+const STATUS_LABEL = { new: "New", contacted: "Contacted", done: "Done" };
+
+const isEmail = (v) => /\S+@\S+\.\S+/.test(v);
+const phoneDigits = (v) => {
+  const d = String(v).replace(/\D/g, "");
+  return d.length === 10 ? "1" + d : d.length === 11 && d[0] === "1" ? d : "";
+};
+const firstOf = (name) => String(name || "").trim().split(/\s+/)[0] || "there";
+
+function whenText(ms) {
+  if (!ms) return "";
+  const diff = Date.now() - ms;
+  const min = Math.round(diff / 60000);
+  if (min < 1) return "Just now";
+  if (min < 60) return `${min} min ago`;
+  const hrs = Math.round(min / 60);
+  if (hrs < 24) return `${hrs} hour${hrs === 1 ? "" : "s"} ago`;
+  const d = new Date(ms);
+  const time = formatTime(d.getHours() * 60 + d.getMinutes());
+  const days = Math.floor(diff / 86400000);
+  if (days < 2) return `Yesterday, ${time}`;
+  return `${formatDateShort(`${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`)}, ${time}`;
+}
+
+function replyText(r) {
+  const s = draft.settings;
+  const me = firstOf(s.business.owner);
+  const dayPart = r.day ? ` for ${formatDateShort(r.day)}` : "";
+  return `Hi ${firstOf(r.name)}, this is ${me} with ${s.business.name}. Thanks for your cleaning request${dayPart}! ` +
+    (r.day ? "Does that day still work for a free consultation?" : "What day works for a free consultation?");
+}
+
+function contactLinks(r) {
+  const s = draft.settings;
+  const links = [];
+  const digits = phoneDigits(r.contact);
+  if (digits) {
+    links.push({ label: "Call", href: `tel:+${digits}` });
+    links.push({ label: "Text", href: `sms:+${digits}?&body=${encodeURIComponent(replyText(r))}` });
+  }
+  if (isEmail(r.contact)) {
+    const subject = `Your cleaning request with ${s.business.name}`;
+    const body = `${replyText(r)}\n\n${firstOf(s.business.owner)}\n${s.business.name}\n${s.business.phone}`;
+    links.push({ label: "Email", href: `mailto:${r.contact.trim()}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}` });
+  }
+  return links;
+}
+
+async function setStatus(r, status) {
+  const patch = { status };
+  if (status === "contacted" && !r.contactedAt) patch.contactedAt = Date.now();
+  if (status === "done") patch.doneAt = Date.now();
+  if (status === "new") { patch.contactedAt = 0; patch.doneAt = 0; }
+  const before = { status: r.status, contactedAt: r.contactedAt, doneAt: r.doneAt };
+  Object.assign(r, patch);
+  renderRequests();
+  try {
+    await updateRequest(r.id, patch);
+  } catch (err) {
+    Object.assign(r, before);
+    renderRequests();
+    toast(`Couldn't update that request: ${err?.message || "unknown error"}`, "err");
+  }
+}
+
+function requestCard(r) {
+  const li = el("li", { className: `req is-${r.status}` });
+  li.append(el("div", { className: "req-top" },
+    el("span", { className: "req-name", textContent: r.name || "No name" }),
+    el("span", { className: "req-status", textContent: STATUS_LABEL[r.status] || r.status }),
+    el("span", { className: "req-time", textContent: whenText(r.createdAt) })));
+
+  const rows = [];
+  const add = (label, value) => { if (value) rows.push(el("dt", { textContent: label }), el("dd", {}, ...[].concat(value))); };
+  add("Contact", r.contact);
+  const tank = [r.kind, r.water && r.water !== "Not sure" ? r.water : "", r.size ? `about ${r.size}` : ""].filter(Boolean).join(", ");
+  add("Tank", tank);
+  add("City", r.city);
+  if (r.day) add("Preferred", `${formatDateLong(r.day)}${r.time ? `, ${r.time}` : ""}`);
+  if (r.code) {
+    const current = draft.settings.discount;
+    const ok = current.enabled && r.code.toUpperCase() === String(current.code).toUpperCase();
+    add("Code", [document.createTextNode(r.code), el("span", { className: `code-tag ${ok ? "code-ok" : "code-old"}`, textContent: ok ? "matches current code" : "not the current code" })]);
+  }
+  add("Sent by", r.via === "text" ? "Text message" : r.via === "email" ? "Email" : "");
+  li.append(el("dl", { className: "req-details" }, ...rows));
+  if (r.notes) li.append(el("p", { className: "req-notes", textContent: r.notes }));
+
+  const actions = el("div", { className: "req-actions" });
+  for (const link of contactLinks(r)) {
+    const a = el("a", { className: "btn btn-primary contact-btn", href: link.href, textContent: link.label });
+    a.setAttribute("aria-label", `${link.label} ${r.name}`);
+    a.addEventListener("click", () => { if (r.status === "new") setStatus(r, "contacted"); });
+    actions.append(a);
+  }
+  actions.append(el("span", { className: "spacer" }));
+  const statusBtn = (label, status) => {
+    const b = el("button", { type: "button", className: "btn btn-outline", textContent: label });
+    b.addEventListener("click", () => setStatus(r, status));
+    return b;
+  };
+  if (r.status === "new") actions.append(statusBtn("Mark as contacted", "contacted"));
+  if (r.status !== "done") actions.append(statusBtn("Mark done", "done"));
+  if (r.status !== "new") actions.append(statusBtn("Move back to new", "new"));
+  const del = el("button", { type: "button", className: "link-btn", textContent: "Delete" });
+  del.addEventListener("click", async () => {
+    if (!confirm(`Delete the request from ${r.name}? This can't be undone.`)) return;
+    try {
+      await deleteRequest(r.id);
+      requests = requests.filter((x) => x !== r);
+      renderRequests();
+      toast("Request deleted.");
+    } catch (err) {
+      toast(`Couldn't delete: ${err?.message || "unknown error"}`, "err");
+    }
+  });
+  actions.append(del);
+  li.append(actions);
+
+  const meta = [];
+  if (r.contactedAt) meta.push(`Contacted ${whenText(r.contactedAt).toLowerCase()}`);
+  if (r.status === "done" && r.doneAt) meta.push(`marked done ${whenText(r.doneAt).toLowerCase()}`);
+  if (meta.length) li.append(el("p", { className: "req-meta", textContent: meta.join(", ") + "." }));
+  return li;
+}
+
+function renderRequests() {
+  const counts = { new: 0, contacted: 0, done: 0, all: requests.length };
+  for (const r of requests) counts[r.status] = (counts[r.status] || 0) + 1;
+  $$("[data-count]").forEach((span) => (span.textContent = counts[span.dataset.count] || ""));
+  $$(".req-filters button").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.filter === reqFilter)));
+
+  const badge = $("#reqBadge");
+  badge.hidden = !counts.new;
+  badge.textContent = counts.new;
+  document.title = `${counts.new ? `(${counts.new}) ` : ""}Owner dashboard | Cal's Perfection Aquatics`;
+
+  const shown = reqFilter === "all" ? requests : requests.filter((r) => r.status === reqFilter);
+  const list = $("#reqList");
+  if (!requestsLoaded) {
+    list.replaceChildren(el("li", { className: "req-empty", textContent: "Loading requests…" }));
+  } else if (!shown.length) {
+    const empty = {
+      new: "No new requests. When someone sends one from the website, it shows up here.",
+      contacted: "Nobody is waiting on a follow-up.",
+      done: "Nothing marked done yet.",
+      all: "No requests yet. They'll show up here when people use the form on the website.",
+    }[reqFilter];
+    list.replaceChildren(el("li", { className: "req-empty", textContent: empty }));
+  } else {
+    list.replaceChildren(...shown.map(requestCard));
+  }
+  renderOverview();
+}
+
+async function refreshRequests({ quiet = false } = {}) {
+  try {
+    requests = await listRequests();
+    requestsLoaded = true;
+    $("#reqError").hidden = true;
+  } catch (err) {
+    requestsLoaded = true;
+    const denied = /permission|insufficient/i.test(String(err?.code || err?.message));
+    $("#reqError").textContent = denied
+      ? "Couldn't load requests: the database rules don't allow it yet. Publish the latest firestore.rules in Firebase."
+      : `Couldn't load requests: ${err?.message || "unknown error"}`;
+    $("#reqError").hidden = false;
+  }
+  renderRequests();
+  if (!quiet) toast("Requests refreshed.");
+}
+
+function initRequests() {
+  $$(".req-filters button").forEach((b) =>
+    b.addEventListener("click", () => { reqFilter = b.dataset.filter; renderRequests(); }));
+  $("#reqRefresh").addEventListener("click", () => refreshRequests());
+  // Check for new requests every minute, and whenever the owner comes back to this tab.
+  setInterval(() => { if (document.visibilityState === "visible") refreshRequests({ quiet: true }); }, 60000);
+  document.addEventListener("visibilitychange", () => { if (document.visibilityState === "visible") refreshRequests({ quiet: true }); });
+}
+
 /* ---------------- boot ---------------- */
 
 function renderAll() {
@@ -490,12 +682,16 @@ async function openDashboard() {
     initTabs();
     initBindings();
     initAvailability();
+    initRequests();
     $("#saveBtn").addEventListener("click", save);
     $("#discardBtn").addEventListener("click", discard);
   }
   renderAll();
   $("#gate").hidden = true;
   $("#dash").hidden = false;
+  await refreshRequests({ quiet: true });
+  // Land on the inbox when someone is waiting for a reply.
+  if (requests.some((r) => r.status === "new")) showTab("requests");
 }
 
 function gate({ text, error, signIn: showSignIn = false, preview = false, otherAccount = false }) {

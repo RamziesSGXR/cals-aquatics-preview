@@ -20,11 +20,13 @@ This copy is hidden from Google on purpose (every page has a `noindex` tag) so i
 
 **The game.** Tap algae before it fogs the water. Each level adds more algae and more fish (tapping a fish costs clarity). Clearing the owner's chosen level (default 5, about a minute of play) reveals the discount code; players can keep going for a high score until the water fogs up. Winners can send the code straight into the request form.
 
-**Request form.** There's no server, so the form builds a message and opens the visitor's text or email app with everything filled in, addressed to Cameron. Nothing gets lost in an inbox he'd have to check separately.
+**Request form.** When a visitor sends a request, a copy is saved to Cameron's dashboard inbox and their text or email app opens with everything filled in, addressed to him, so he's notified on his phone right away. A hidden spam trap and the database rules keep junk out.
 
 ## The owner dashboard
 
 Cameron can change all of this without touching code:
+
+- **Requests:** every request sent from the website's form lands in an inbox, newest first, with the customer's contact info, tank details, preferred day, any discount code (flagged if it matches the current one), and notes. Call, Text, and Email buttons open his phone or email with a friendly reply already written, and using one marks the request *Contacted*. He can also mark requests *Done*, move them back to *New*, or delete them. The tab shows a count of new requests, the dashboard opens straight to the inbox when someone is waiting, and it checks for new ones every minute while open.
 
 - **Discount & game:** turn the discount on or off, change the code, what it's worth, and which level wins it
 - **Availability:** block whole days, block busy hours on a day, block a date range (vacations), set normal working hours per weekday, minimum notice, and how far ahead people can pick
@@ -34,9 +36,11 @@ Cameron can change all of this without touching code:
 
 Customers only ever see *open*, *partly booked*, or *booked*. They never see why a day is blocked.
 
+Only Cameron can read requests. Visitors can send one, but the database rules stop anyone else from reading, changing, or deleting them.
+
 ### Preview mode vs. live
 
-Until Firebase is connected, the dashboard runs in **preview mode**: everything works, but changes are saved only in the browser you're using. That's good for demoing; it does not change what visitors see. A yellow banner makes this obvious.
+Until Firebase is connected, the dashboard runs in **preview mode**: everything works, but changes are saved only in the browser you're using. That's good for demoing; it does not change what visitors see. The same goes for requests: in preview mode, the inbox only shows requests sent from that same browser. A yellow banner makes this obvious.
 
 ## Connect the owner login
 
@@ -46,7 +50,7 @@ About 15 minutes, free. Ideally Cameron does this with his business Google accou
 2. **Build → Authentication → Get started → Sign-in method → Google → Enable.** Pick a support email and save.
 3. **Authentication → Settings → Authorized domains → Add domain:** `ramziessgxr.github.io` (later also `www.calsperfectionaquatics.com` and `calsperfectionaquatics.com`).
 4. **Build → Firestore Database → Create database.** Choose **production mode** and a US location near Spokane (e.g. `us-west1`, Oregon).
-5. **Firestore → Rules:** replace everything with the contents of [`firestore.rules`](firestore.rules) and click **Publish**. These rules let anyone read the site content but only the listed Google account(s) change it.
+5. **Firestore → Rules:** replace everything with the contents of [`firestore.rules`](firestore.rules) and click **Publish**. These rules let anyone read the site content and send a cleaning request, but only the listed Google account(s) can change the site or read requests. (If you set Firebase up before the Requests inbox existed, paste the rules in again and re-publish.)
 6. **Project settings (gear icon) → General → Your apps → Web (`</>`):** register an app, then copy `apiKey`, `authDomain`, `projectId`, and `appId` into [`js/config.js`](js/config.js). Commit.
 7. Open `/admin.html`, sign in with `calsperfectionaquatics@gmail.com`, change something, and **Save**. The first save creates the content in the database.
 
@@ -54,7 +58,7 @@ To test it yourself before handing it over, add your own Google address to **bot
 
 **Is the config safe to publish in a public repo?** Yes. Firebase web config identifies the project; it isn't a password. The security rules are what block everyone except the owner from writing. There are no passwords or secret keys anywhere in this repo.
 
-**Cost:** the free Spark plan covers this easily. Each page view does 2 small database reads, and the free tier allows tens of thousands of reads per day.
+**Cost:** the free Spark plan covers this easily. Each page view does 2 small database reads, each request is 1 write, and the free tier allows tens of thousands of each per day.
 
 ## Going live
 

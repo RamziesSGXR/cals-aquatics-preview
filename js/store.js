@@ -1,8 +1,10 @@
 /* ------------------------------------------------------------------
    Data layer. Two modes:
-   - "live":    Firebase is configured. Content is read from Firestore
+   - "live":    Firebase is configured. Site content is read from Firestore
                 (public, read-only) and written by the signed-in owner.
-   - "preview": Firebase isn't set up yet. Content is read from and
+                Cleaning requests can be created by anyone but only read
+                by the owner.
+   - "preview": Firebase isn't set up yet. Everything is read from and
                 saved to this browser only (localStorage).
 ------------------------------------------------------------------- */
 import { FIREBASE_CONFIG, FIREBASE_VERSION, OWNER_EMAILS, isFirebaseConfigured } from "./config.js";
@@ -17,6 +19,7 @@ const KEYS = {
   previewAvailability: "cpa_preview_availability",
   cacheSettings: "cpa_cache_settings",
   cacheAvailability: "cpa_cache_availability",
+  previewRequests: "cpa_preview_requests",
 };
 
 function readLocal(key) {
@@ -136,7 +139,72 @@ export function resetPreview() {
   try {
     window.localStorage.removeItem(KEYS.previewSettings);
     window.localStorage.removeItem(KEYS.previewAvailability);
+    window.localStorage.removeItem(KEYS.previewRequests);
   } catch {}
+}
+
+/* ---------------- Cleaning requests ---------------- */
+
+// Fields a visitor's request may contain (must match firestore.rules).
+export const REQUEST_FIELDS = ["name", "contact", "kind", "water", "size", "city", "day", "time", "code", "notes", "via"];
+const MAX_LEN = { notes: 1000, contact: 120 };
+
+function cleanRequest(data) {
+  const out = {};
+  for (const k of REQUEST_FIELDS) {
+    out[k] = String(data[k] ?? "").trim().slice(0, MAX_LEN[k] || 80);
+  }
+  return out;
+}
+
+const toMillis = (v) => (v?.toMillis ? v.toMillis() : Number(v) || 0);
+
+export async function submitRequest(data) {
+  const req = cleanRequest(data);
+  if (mode === "preview") {
+    const list = readLocal(KEYS.previewRequests) || [];
+    list.unshift({ id: Math.random().toString(36).slice(2, 10), ...req, status: "new", createdAt: Date.now() });
+    writeLocal(KEYS.previewRequests, list.slice(0, 200));
+    return;
+  }
+  const { db, fs } = await getDb();
+  await fs.addDoc(fs.collection(db, "requests"), { ...req, status: "new", createdAt: fs.serverTimestamp() });
+}
+
+// Owner only. Newest first. createdAt/contactedAt/doneAt come back as milliseconds.
+export async function listRequests() {
+  if (mode === "preview") return readLocal(KEYS.previewRequests) || [];
+  const { db, fs } = await getDb();
+  const q = fs.query(fs.collection(db, "requests"), fs.orderBy("createdAt", "desc"), fs.limit(200));
+  const snap = await fs.getDocs(q);
+  return snap.docs.map((d) => {
+    const v = d.data();
+    return { id: d.id, ...v, createdAt: toMillis(v.createdAt), contactedAt: toMillis(v.contactedAt), doneAt: toMillis(v.doneAt) };
+  });
+}
+
+// Owner only. patch may contain status, contactedAt, doneAt (millis).
+export async function updateRequest(id, patch) {
+  if (mode === "preview") {
+    const list = readLocal(KEYS.previewRequests) || [];
+    const item = list.find((r) => r.id === id);
+    if (item) Object.assign(item, patch);
+    writeLocal(KEYS.previewRequests, list);
+    return;
+  }
+  const { db, fs } = await getDb();
+  const out = { ...patch };
+  for (const k of ["contactedAt", "doneAt"]) if (k in out) out[k] = out[k] ? fs.Timestamp.fromMillis(out[k]) : null;
+  await fs.updateDoc(fs.doc(db, "requests", id), out);
+}
+
+export async function deleteRequest(id) {
+  if (mode === "preview") {
+    writeLocal(KEYS.previewRequests, (readLocal(KEYS.previewRequests) || []).filter((r) => r.id !== id));
+    return;
+  }
+  const { db, fs } = await getDb();
+  await fs.deleteDoc(fs.doc(db, "requests", id));
 }
 
 /* ---------------- Owner sign-in (live mode only) ---------------- */

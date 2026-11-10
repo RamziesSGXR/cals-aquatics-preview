@@ -403,6 +403,7 @@ h3 { font-size: 19px; font-weight: 700; line-height: 1.2; }
 .field textarea { min-height: 80px; resize: vertical; }
 .field input:focus, .field select:focus, .field textarea:focus { outline: none; border-color: var(--teal); background: var(--white); box-shadow: 0 0 0 3px rgba(14, 115, 114, .15); }
 .field [aria-invalid="true"] { border-color: var(--danger); }
+.hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
 .field-code input { text-transform: uppercase; letter-spacing: .06em; font-weight: 600; }
 .chosen-day { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 8px 10px 8px 14px; margin-bottom: 12px; border-radius: 10px; background: var(--algae-soft); font-weight: 600; font-size: 15px; }
 .chosen-day button { border: 0; background: transparent; color: var(--ink-soft); font: 600 14px var(--body); text-decoration: underline; cursor: pointer; padding: 4px; }

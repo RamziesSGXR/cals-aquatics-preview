@@ -7,7 +7,7 @@
    - "preview": Firebase isn't set up yet. Everything is read from and
                 saved to this browser only (localStorage).
 ------------------------------------------------------------------- */
-import { FIREBASE_CONFIG, FIREBASE_VERSION, OWNER_EMAILS, isFirebaseConfigured } from "./config.js";
+import { FIREBASE_CONFIG, FIREBASE_VERSION, OWNER_EMAILS, OWNER_UIDS, isFirebaseConfigured } from "./config.js";
 import { DEFAULT_SETTINGS, DEFAULT_AVAILABILITY } from "./defaults.js";
 
 const CDN = `https://www.gstatic.com/firebasejs/${FIREBASE_VERSION}`;
@@ -217,8 +217,10 @@ function getAuthKit() {
   return authPromise;
 }
 
-export const isOwnerEmail = (email) =>
-  Boolean(email) && OWNER_EMAILS.map((e) => e.toLowerCase()).includes(email.toLowerCase());
+export const isOwner = (user) =>
+  Boolean(user) &&
+  (OWNER_UIDS.includes(user.uid) ||
+    (Boolean(user.email) && OWNER_EMAILS.map((e) => e.toLowerCase()).includes(user.email.toLowerCase())));
 
 export async function watchAuth(callback) {
   const { auth, a } = await getAuthKit();

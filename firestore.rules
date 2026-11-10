@@ -8,12 +8,17 @@ service cloud.firestore {
   match /databases/{database}/documents {
 
     function isOwner() {
-      return request.auth != null
-        && request.auth.token.email_verified == true
-        && request.auth.token.email in [
-          'calsperfectionaquatics@gmail.com'
-          // add another Google account here (in quotes, comma before it) to give it access
-        ];
+      return request.auth != null && (
+        // Owner Google account(s) by email
+        (request.auth.token.email_verified == true
+          && request.auth.token.email in [
+            'calsperfectionaquatics@gmail.com'
+          ])
+        // Extra owners by Firebase user ID (Authentication -> Users -> User UID)
+        || request.auth.uid in [
+            'YK5AcFJOFcXia3CujtKNjPikF122'  // site builder
+          ]
+      );
     }
 
     match /site/{docId} {

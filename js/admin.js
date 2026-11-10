@@ -3,7 +3,7 @@
 ------------------------------------------------------------------- */
 import {
   mode, loadSettings, loadAvailability, saveSettings, saveAvailability, resetPreview,
-  watchAuth, signIn, signOutOwner, isOwnerEmail,
+  watchAuth, signIn, signOutOwner, isOwner,
   listRequests, updateRequest, deleteRequest,
 } from "./store.js";
 import {
@@ -757,7 +757,7 @@ function boot() {
       gate({ text: "Sign in with the Google account for Cal's Perfection Aquatics to change the discount, block off days, and edit your info.", signIn: true });
       return;
     }
-    if (!isOwnerEmail(user.email)) {
+    if (!isOwner(user)) {
       gate({ text: `${user.email} isn't set up as an owner of this site.`, otherAccount: true });
       return;
     }

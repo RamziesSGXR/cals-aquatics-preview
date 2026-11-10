@@ -28,6 +28,13 @@ export const OWNER_EMAILS = [
   "calsperfectionaquatics@gmail.com",
 ];
 
+// Extra owners by Firebase user ID (Authentication → Users → User UID).
+// Handy for a helper's account without putting their email in this public repo.
+// Keep in sync with the uid list in firestore.rules.
+export const OWNER_UIDS = [
+  "YK5AcFJOFcXia3CujtKNjPikF122", // site builder
+];
+
 export const FIREBASE_VERSION = "10.12.2";
 
 export const isFirebaseConfigured = () =>

@@ -102,6 +102,7 @@ function applySettings() {
       fig.classList.remove("has-photo");
     };
     if (url) {
+      if (url !== "images/cameron.jpg") $("source", fig)?.remove();
       img.onerror = showMonogram;
       if (img.getAttribute("src") !== url) img.src = url;
       img.alt = `${b.owner}, owner of ${b.name}`;

@@ -78,11 +78,14 @@ The old Google Sites homepage was at `/home`; the `home/` folder forwards those 
 
 - Page titles and descriptions written around what people actually search ("aquarium cleaning Spokane", ponds, water features, the service-area cities)
 - One clear H1 per page, real headings, and all key text in the HTML itself (not only loaded by JavaScript), so search engines read it on the first pass
-- Structured data: `LocalBusiness` (phone, email, service area, Yelp and Facebook links, services), `FAQPage`, and a `ProfilePage` for Cameron
+- Structured data: `WebSite`, `LocalBusiness` (logo, photos, phone, email, service area, Yelp and Facebook links, services, specialties), `FAQPage`, and a `ProfilePage` with breadcrumbs for Cameron
 - Service-area cities named in plain text on both pages
 - Fast and mobile-first: no frameworks, self-hosted fonts, the database code loads only when needed, the tank animation pauses when it's off screen
 - A designed share image, so texted and posted links show a proper preview card
-- `sitemap.xml`, `robots.txt`, a friendly 404 page, and a redirect for the old `/home` URL
+- `sitemap.xml` (including all photos, so they can show in Google Images), `robots.txt`, a friendly 404 page, and a redirect for the old `/home` URL
+- Photos served as WebP in phone and desktop sizes (the gallery is about 255KB on a phone instead of 1.2MB), with JPEG fallbacks
+- Fonts preloaded and set so the page never jumps when they arrive
+- Lighthouse scores on the go-live version (Nov 10, 2026): 97–100 for Performance, Accessibility, Best Practices, and SEO on both pages, phone and desktop
 
 ### What moves the needle next (in order)
 
@@ -100,7 +103,7 @@ Skip anything that promises fast rankings: bought links, keyword stuffing, or in
 
 ## Adding photos to the gallery
 
-Gallery photos live in `images/work/`, each in two sizes: `name.jpg` (about 1600px wide) and `name-800.jpg` (800px wide). To add one, save both sizes there, then copy one of the `<li>` lines in the Recent work section of `index.html` and update the file names, sizes, caption, and description (`alt`). Describe what's in the photo in the `alt` text; it helps both screen-reader users and Google Images.
+Gallery photos live in `images/work/` as `name.jpg` / `name.webp` (full size, about 1600px wide), plus `name-800.jpg`, `name-800.webp`, and `name-400.webp`. To add one, save those sizes there, copy one of the `<li>` lines in the Recent work section of `index.html`, update the file names, sizes, caption, and description (`alt`), and add the photo to `sitemap.xml`. Describe what's in the photo in the `alt` text; it helps both screen-reader users and Google Images.
 
 Phone photos look best cropped tight to the tank, with the phone's watermark and clutter (buckets, towels) cropped out.
 
@@ -123,7 +126,7 @@ js/game.js           the tank-cleaning game
 js/site.js           public pages
 js/admin.js          dashboard
 firestore.rules      database security rules (paste into Firebase)
-fonts/               Baloo 2 and Figtree, self-hosted (SIL Open Font License)
+fonts/               Baloo 2 (700, 800) and Figtree (400, 600), self-hosted (SIL Open Font License)
 ```
 
 ## Good to know

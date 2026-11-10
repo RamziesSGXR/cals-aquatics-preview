@@ -23,13 +23,23 @@
   <meta name="twitter:card" content="summary_large_image">
 
   <link rel="preload" href="fonts/baloo-2-latin-800-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="fonts/baloo-2-latin-700-normal.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="fonts/figtree-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="fonts/figtree-latin-600-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" as="image" type="image/webp" imagesrcset="images/cameron-480.webp 480w, images/cameron-900.webp 900w" imagesizes="(max-width: 860px) 320px, 340px" fetchpriority="high">
   <link rel="stylesheet" href="css/site.css">
 
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "ProfilePage",
+    "breadcrumb": {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://ramziessgxr.github.io/cals-aquatics-preview/" },
+        { "@type": "ListItem", "position": 2, "name": "About Cameron Latimer", "item": "https://ramziessgxr.github.io/cals-aquatics-preview/about.html" }
+      ]
+    },
     "url": "https://ramziessgxr.github.io/cals-aquatics-preview/about.html",
     "mainEntity": {
       "@type": "Person",
@@ -79,7 +89,7 @@
       <div class="wrap about-grid">
         <div class="about-side">
           <figure class="portrait has-photo" data-portrait>
-            <img src="images/cameron.jpg" alt="Cameron Latimer, owner of Cal's Perfection Aquatics" width="900" height="900">
+            <picture><source type="image/webp" srcset="images/cameron-480.webp 480w, images/cameron-900.webp 900w" sizes="(max-width: 860px) 320px, 340px"><img src="images/cameron.jpg" alt="Cameron Latimer, owner of Cal's Perfection Aquatics" width="900" height="900" fetchpriority="high"></picture>
             <span class="monogram" aria-hidden="true" hidden>CL</span>
           </figure>
           <dl class="facts" id="facts">

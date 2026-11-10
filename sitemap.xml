@@ -1,11 +1,54 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
   <url>
     <loc>https://ramziessgxr.github.io/cals-aquatics-preview/</loc>
     <lastmod>2026-11-10</lastmod>
+    <image:image>
+      <image:loc>https://ramziessgxr.github.io/cals-aquatics-preview/images/cameron.jpg</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://ramziessgxr.github.io/cals-aquatics-preview/images/work/on-the-job.jpg</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://ramziessgxr.github.io/cals-aquatics-preview/images/work/living-room-tank.jpg</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://ramziessgxr.github.io/cals-aquatics-preview/images/work/rock-driftwood-tank.jpg</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://ramziessgxr.github.io/cals-aquatics-preview/images/work/backyard-pond.jpg</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://ramziessgxr.github.io/cals-aquatics-preview/images/work/red-truck-tank.jpg</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://ramziessgxr.github.io/cals-aquatics-preview/images/work/angelfish-tank.jpg</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://ramziessgxr.github.io/cals-aquatics-preview/images/work/business-planted-tank.jpg</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://ramziessgxr.github.io/cals-aquatics-preview/images/work/planted-cube.jpg</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://ramziessgxr.github.io/cals-aquatics-preview/images/work/fresh-setup.jpg</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://ramziessgxr.github.io/cals-aquatics-preview/images/work/cleaning-day.jpg</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://ramziessgxr.github.io/cals-aquatics-preview/images/work/holiday-centerpiece.jpg</image:loc>
+    </image:image>
   </url>
   <url>
     <loc>https://ramziessgxr.github.io/cals-aquatics-preview/about.html</loc>
     <lastmod>2026-11-10</lastmod>
+    <image:image>
+      <image:loc>https://ramziessgxr.github.io/cals-aquatics-preview/images/cameron.jpg</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://ramziessgxr.github.io/cals-aquatics-preview/images/cameron-on-the-job.jpg</image:loc>
+    </image:image>
   </url>
 </urlset>

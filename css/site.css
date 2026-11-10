@@ -4,14 +4,15 @@
    "clean glass": light, crisp, and quiet.
    ================================================================== */
 
-/* ---------------- fonts ---------------- */
+/* ---------------- fonts ----------------
+   Four files, all preloaded in each page's <head>. "optional" means a font
+   that isn't ready right away is skipped for that visit instead of swapping
+   in late, so the page never jumps. Figtree 500/700 fall back to 400/600. */
 
-@font-face { font-family: "Baloo 2"; src: url("../fonts/baloo-2-latin-700-normal.woff2") format("woff2"); font-weight: 700; font-display: swap; }
-@font-face { font-family: "Baloo 2"; src: url("../fonts/baloo-2-latin-800-normal.woff2") format("woff2"); font-weight: 800; font-display: swap; }
-@font-face { font-family: "Figtree"; src: url("../fonts/figtree-latin-400-normal.woff2") format("woff2"); font-weight: 400; font-display: swap; }
-@font-face { font-family: "Figtree"; src: url("../fonts/figtree-latin-500-normal.woff2") format("woff2"); font-weight: 500; font-display: swap; }
-@font-face { font-family: "Figtree"; src: url("../fonts/figtree-latin-600-normal.woff2") format("woff2"); font-weight: 600; font-display: swap; }
-@font-face { font-family: "Figtree"; src: url("../fonts/figtree-latin-700-normal.woff2") format("woff2"); font-weight: 700; font-display: swap; }
+@font-face { font-family: "Baloo 2"; src: url("../fonts/baloo-2-latin-700-normal.woff2") format("woff2"); font-weight: 700; font-display: optional; }
+@font-face { font-family: "Baloo 2"; src: url("../fonts/baloo-2-latin-800-normal.woff2") format("woff2"); font-weight: 800; font-display: optional; }
+@font-face { font-family: "Figtree"; src: url("../fonts/figtree-latin-400-normal.woff2") format("woff2"); font-weight: 400; font-display: optional; }
+@font-face { font-family: "Figtree"; src: url("../fonts/figtree-latin-600-normal.woff2") format("woff2"); font-weight: 600; font-display: optional; }
 
 /* ---------------- tokens ---------------- */
 
@@ -235,6 +236,7 @@ h3 { font-size: 19px; font-weight: 700; line-height: 1.2; }
 .gallery { list-style: none; margin: 0; padding: 0; columns: 4 220px; column-gap: 12px; }
 .gallery li { break-inside: avoid; margin-bottom: 12px; }
 .g-item { display: block; width: 100%; padding: 0; border: 0; border-radius: var(--radius); overflow: hidden; position: relative; cursor: zoom-in; background: var(--clear-2); }
+.g-item picture { display: block; height: 100%; }
 .g-item img { width: 100%; height: auto; transition: transform .35s ease; }
 .g-item:hover img { transform: scale(1.03); }
 .g-cap { position: absolute; left: 0; right: 0; bottom: 0; padding: 22px 12px 9px; text-align: left; font: 600 13.5px/1.3 var(--body); color: #fff; background: linear-gradient(transparent, rgba(4, 24, 30, .78)); }
@@ -280,6 +282,7 @@ h3 { font-size: 19px; font-weight: 700; line-height: 1.2; }
 
 .meet-grid { display: grid; grid-template-columns: minmax(0, 3fr) minmax(0, 7fr); gap: var(--gap); align-items: center; }
 .portrait { margin: 0; position: relative; aspect-ratio: 4 / 5; border-radius: 200px 200px 22px 22px; overflow: hidden; background: radial-gradient(120% 90% at 30% 10%, #1b6d72 0%, var(--deep) 70%); }
+.portrait picture { display: contents; }
 .portrait img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 30%; }
 .portrait .monogram { position: absolute; inset: 0; display: grid; place-items: center; font: 800 clamp(64px, 10vw, 112px)/1 var(--display); color: var(--foam); letter-spacing: -.02em; }
 /* decorative bubbles, only behind the initials fallback */

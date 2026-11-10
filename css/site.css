@@ -237,20 +237,6 @@ p { margin: 0 0 1em; }
   .steps li::before { grid-row: span 2; margin: 0; }
 }
 
-/* how it works + on-the-job photo */
-.steps-split { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: clamp(32px, 6vw, 80px); align-items: center; }
-.steps.steps-vertical { grid-template-columns: 1fr; gap: 30px; }
-.steps.steps-vertical::before { left: 27px; right: auto; top: 28px; bottom: 28px; width: 2px; height: auto; background: repeating-linear-gradient(180deg, var(--teal) 0 8px, transparent 8px 16px); }
-.steps.steps-vertical li { display: grid; grid-template-columns: 56px 1fr; column-gap: 20px; }
-.steps.steps-vertical li::before { grid-row: span 2; margin: 0; }
-.steps.steps-vertical h3 { align-self: end; }
-.job-photo-home { margin: 0; }
-.job-photo-home img { border-radius: 24px; box-shadow: 0 30px 60px -35px rgba(6, 42, 51, .55); }
-@media (max-width: 860px) {
-  .steps-split { grid-template-columns: 1fr; }
-  .job-photo-home { max-width: 420px; }
-}
-
 /* ---------------- work gallery ---------------- */
 
 .work { background: var(--white); border-top: 1px solid var(--line); }

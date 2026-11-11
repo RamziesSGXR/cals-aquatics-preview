@@ -16,7 +16,7 @@ This copy is hidden from Google on purpose (every page has a `noindex` tag) so i
 | `index.html` | Home: animated tank hero, services, how it works, recent work gallery, meet Cameron, availability calendar, game, FAQ, request form |
 | `about.html` | Cameron's story, quick facts, what he works on, service area |
 | `book.html` | Just the availability calendar and request form, for QR codes and "book now" links |
-| `card.html` | Cameron's digital business card: call/text/email, Save contact, and a QR code (book or save contact) that goes full screen for showing people. Also linked as **My card** in the dashboard |
+| `card.html` | Cameron's digital business card: his actual card (tap to flip front/back), call/text/email, Save contact, and a QR code (book or save contact) that goes full screen for showing people. Also linked as **My card** in the dashboard |
 | `admin.html` | Owner dashboard (sign-in required once Firebase is connected) |
 | `home/` | Redirects the old Google Sites `/home` link to the new homepage |
 
@@ -72,6 +72,7 @@ To test it yourself before handing it over, add your own Google address to **bot
 
 - **Digital card:** https://calsaquatics.com/card.html. Cameron can open it from the **My card** button in his dashboard, or add it to his home screen. Tapping the QR code fills the screen and keeps it from dimming.
 - **QR codes** live in `images/qr/`: `book.svg` / `book-print.png` open the booking page, and `contact.svg` / `contact-print.png` save his contact. The `-print.png` files are high resolution for business cards, flyers, or the truck banner. They point to `http://` addresses so they work whether or not HTTPS is switched on (GitHub sends people to the secure version automatically).
+- **Shareable card picture:** `images/cameron-card-share.jpg` (1080×1350, front and back of the card) for texting or posting; the QR in it scans. `images/card-og.jpg` is the link preview when the card page is shared. Source: `print/share-card.html`, rendered by `print/render-share.js`.
 - **Printed business cards** live in `print/`: `CPA-business-card-print-shop.pdf` (front + back, 3.5×2 in with 0.125 in bleed, ready for Vistaprint, a local print shop, etc.) and `CPA-business-cards-print-at-home.pdf` (10 per Letter page for perforated card stock like Avery 8371/5371; print page 1, flip the sheet, print page 2). The design source is `print/business-card.html`; re-render with `node print/render.js <folder>`.
 - **Contact file:** `cameron.vcf` (with his photo). If his phone, email, or photo changes, this file and the contact QR need regenerating; the buttons on the card update from the dashboard on their own.
 

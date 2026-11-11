@@ -64,14 +64,35 @@ full.addEventListener("click", (e) => { if (e.target === full) closeFull(); });
 document.addEventListener("keydown", (e) => { if (e.key === "Escape" && !full.hidden) closeFull(); });
 document.addEventListener("visibilitychange", () => { if (document.visibilityState === "visible" && !full.hidden) keepAwake(true); });
 
-/* share */
+/* flip the business card */
+const flip = $("#flipCard");
+flip.addEventListener("click", () => {
+  const flipped = flip.classList.toggle("flipped");
+  flip.setAttribute("aria-label", `Business card, ${flipped ? "back" : "front"} side. Tap to flip.`);
+});
+
+/* share: send the card picture plus the link where the phone supports it */
 $("#shareBtn").addEventListener("click", async () => {
   const url = new URL("card.html", location.href).href;
-  const data = { title: "Cameron Latimer, Cal's Perfection Aquatics", text: "Aquarium, pond, and water feature cleaning in Spokane", url };
+  const text = "Cameron Latimer, Cal's Perfection Aquatics. Aquarium, pond, and water feature cleaning in Spokane.";
+  const label = $("#shareBtn span");
   try {
-    if (navigator.share) { await navigator.share(data); return; }
+    if (navigator.share) {
+      try {
+        const blob = await (await fetch("images/cameron-card-share.jpg")).blob();
+        const file = new File([blob], "Cameron Latimer - Cal's Perfection Aquatics.jpg", { type: "image/jpeg" });
+        if (navigator.canShare?.({ files: [file] })) {
+          await navigator.share({ files: [file], title: "Cameron Latimer", text: `${text} ${url}` });
+          return;
+        }
+      } catch (err) {
+        if (err?.name === "AbortError") return; // closed the share sheet
+      }
+      await navigator.share({ title: "Cameron Latimer", text, url });
+      return;
+    }
     await navigator.clipboard.writeText(url);
-    $("#shareBtn").lastChild.textContent = " Link copied";
-    setTimeout(() => ($("#shareBtn").lastChild.textContent = " Share this card"), 2000);
+    label.textContent = "Link copied";
+    setTimeout(() => (label.textContent = "Share this card"), 2000);
   } catch { /* share sheet closed */ }
 });

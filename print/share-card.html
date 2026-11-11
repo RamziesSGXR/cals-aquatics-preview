@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Share image source</title>
+<meta name="robots" content="noindex">
+<!--
+  Source for the shareable card images (rendered to PNG/JPG by render.js):
+    ?v=story  1080x1350, for texting and social posts
+    ?v=og     1200x630, the link preview for card.html
+  Uses the business card faces rendered from business-card.html.
+-->
+<style>
+  @font-face { font-family: "Baloo 2"; src: url("../fonts/baloo-2-latin-800-normal.woff2") format("woff2"); font-weight: 800; }
+  @font-face { font-family: "Baloo 2"; src: url("../fonts/baloo-2-latin-700-normal.woff2") format("woff2"); font-weight: 700; }
+  @font-face { font-family: "Figtree"; src: url("../fonts/figtree-latin-600-normal.woff2") format("woff2"); font-weight: 600; }
+  @font-face { font-family: "Figtree"; src: url("../fonts/figtree-latin-400-normal.woff2") format("woff2"); font-weight: 400; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { background: #062a33; }
+  .canvas {
+    position: relative; overflow: hidden; color: #eaf6f4; font-family: "Figtree", sans-serif;
+    background:
+      radial-gradient(circle at 88% 9%, rgba(234,246,244,.18) 0 10px, transparent 11px),
+      radial-gradient(circle at 82% 14%, rgba(234,246,244,.13) 0 16px, transparent 17px),
+      radial-gradient(circle at 92% 19%, rgba(234,246,244,.1) 0 7px, transparent 8px),
+      radial-gradient(circle at 8% 88%, rgba(234,246,244,.1) 0 12px, transparent 13px),
+      radial-gradient(130% 80% at 50% -10%, #17677b 0%, #062a33 62%);
+  }
+  .face { display: block; border-radius: 22px; box-shadow: 0 40px 80px -30px rgba(0,0,0,.75), 0 0 0 1px rgba(255,255,255,.08); }
+
+  /* story: 1080 x 1350 */
+  .story { width: 1080px; height: 1350px; }
+  .story .head { position: absolute; top: 70px; left: 0; right: 0; text-align: center; }
+  .story .head h1 { font: 800 64px/1 "Baloo 2", sans-serif; letter-spacing: -.01em; }
+  .story .head p { margin-top: 12px; font: 600 30px/1.2 "Figtree", sans-serif; color: #9fe0d6; }
+  .story .front { position: absolute; width: 860px; left: 90px; top: 250px; transform: rotate(-3deg); }
+  .story .back { position: absolute; width: 860px; left: 130px; top: 680px; transform: rotate(2.2deg); }
+  .story .foot { position: absolute; bottom: 64px; left: 0; right: 0; text-align: center; }
+  .story .foot .url { font: 800 46px/1 "Baloo 2", sans-serif; }
+  .story .foot .cta { margin-top: 10px; font: 600 26px/1.2 "Figtree", sans-serif; color: rgba(234,246,244,.8); }
+
+  /* og: 1200 x 630 */
+  .og { width: 1200px; height: 630px; }
+  .og .front { position: absolute; width: 560px; left: 60px; top: 150px; transform: rotate(-4deg); }
+  .og .back { position: absolute; width: 560px; left: 590px; top: 170px; transform: rotate(3deg); }
+  .og .head { position: absolute; top: 46px; left: 0; right: 0; text-align: center; }
+  .og .head h1 { font: 800 50px/1 "Baloo 2", sans-serif; }
+  .og .head p { margin-top: 8px; font: 600 22px/1 "Figtree", sans-serif; color: #9fe0d6; }
+  .og .tap { position: absolute; bottom: 30px; left: 0; right: 0; text-align: center; font: 600 22px/1 "Figtree", sans-serif; color: rgba(234,246,244,.85); }
+</style>
+</head>
+<body>
+<div id="out"></div>
+<template id="story">
+  <div class="canvas story">
+    <div class="head"><h1>Cameron Latimer</h1><p>Aquarium, pond &amp; water feature cleaning</p></div>
+    <img class="face front" src="business-card-front.png" alt="">
+    <img class="face back" src="business-card-back.png" alt="">
+    <div class="foot"><div class="url">calsaquatics.com</div><div class="cta">Scan the code on the card to book a free consultation</div></div>
+  </div>
+</template>
+<template id="og">
+  <div class="canvas og">
+    <div class="head"><h1>Cameron Latimer</h1><p>Cal's Perfection Aquatics, Spokane</p></div>
+    <img class="face front" src="business-card-front.png" alt="">
+    <img class="face back" src="business-card-back.png" alt="">
+    <div class="tap">Tap to call, text, or book a cleaning</div>
+  </div>
+</template>
+<script>
+  const v = new URLSearchParams(location.search).get("v") || "story";
+  document.getElementById("out").append(document.getElementById(v).content.firstElementChild.cloneNode(true));
+</script>
+</body>
+</html>

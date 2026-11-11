@@ -24,16 +24,21 @@
 .bcard-brand { display: flex; align-items: center; justify-content: center; gap: 10px; font: 700 17px/1 var(--display); color: var(--foam-dim); }
 .bcard-brand img { width: 36px; height: 36px; }
 
-/* identity */
-.bcard-id { text-align: center; }
-.bcard-id picture { display: contents; }
-.bcard-photo {
-  width: 108px; height: 108px; margin: 2px auto 10px; border-radius: 50%; object-fit: cover; object-position: 50% 30%;
-  border: 3px solid rgba(234, 246, 244, .9); box-shadow: 0 0 0 6px rgba(111, 211, 240, .18), 0 20px 40px -18px rgba(0, 0, 0, .7);
-}
-.bcard-id h1 { font-size: 31px; font-weight: 800; line-height: 1.05; }
-.bcard-role { margin: 6px 0 0; font-weight: 600; color: #9fe0d6; }
-.bcard-tag { margin: 6px auto 0; max-width: 30ch; font-size: 15px; color: var(--foam-dim); }
+/* the business card itself: tap to flip */
+.bcard-flip-wrap { display: grid; gap: 10px; }
+.bcard-flip { display: block; width: 100%; padding: 0; border: 0; background: none; cursor: pointer; perspective: 1400px; -webkit-tap-highlight-color: transparent; }
+.flip-inner { position: relative; display: block; aspect-ratio: 7 / 4; transform-style: preserve-3d; transition: transform .7s cubic-bezier(.2, .7, .2, 1); }
+.bcard-flip.flipped .flip-inner { transform: rotateY(180deg); }
+.flip-face { position: absolute; inset: 0; display: block; backface-visibility: hidden; -webkit-backface-visibility: hidden; border-radius: 14px; overflow: hidden; box-shadow: 0 28px 50px -24px rgba(0, 0, 0, .8), 0 0 0 1px rgba(255, 255, 255, .1); }
+.flip-face img { width: 100%; height: 100%; display: block; }
+.flip-back { transform: rotateY(180deg); }
+.flip-hint { margin: 0; text-align: center; font-size: 13px; color: var(--foam-dim); }
+
+.bcard-who { display: flex; align-items: center; justify-content: center; gap: 12px; margin-top: 4px; }
+.bcard-who picture { display: contents; }
+.bcard-photo { width: 56px; height: 56px; border-radius: 50%; object-fit: cover; object-position: 50% 30%; border: 2px solid rgba(234, 246, 244, .9); }
+.bcard-who h1 { font-size: 24px; font-weight: 800; line-height: 1.05; }
+.bcard-role { margin: 3px 0 0; font-size: 14px; font-weight: 600; color: #9fe0d6; }
 
 /* quick actions */
 .bcard-actions { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
@@ -62,6 +67,8 @@
 .bcard-share { display: inline-flex; align-items: center; justify-content: center; gap: 8px; justify-self: center; padding: 10px 16px; border: 0; background: none; color: var(--foam-dim); font: 600 15px var(--body); cursor: pointer; }
 .bcard-share svg { width: 18px; height: 18px; }
 .bcard-share:hover { color: var(--foam); }
+.bcard-save-img { justify-self: center; margin-top: -8px; font-size: 14px; color: var(--foam-dim); }
+.bcard-save-img:hover { color: var(--foam); }
 
 /* full-screen QR for showing across a table */
 .qr-full {
@@ -80,3 +87,5 @@
   .card-page { display: grid; place-items: center; }
   .bcard { padding-top: 40px; padding-bottom: 40px; }
 }
+
+@media (prefers-reduced-motion: reduce) { .flip-inner { transition: none; } }

@@ -16,7 +16,10 @@
   <meta property="og:title" content="Cameron Latimer, Cal's Perfection Aquatics">
   <meta property="og:description" content="Aquarium, pond, and water feature cleaning in the Spokane area. Tap to call, text, or book.">
   <meta property="og:url" content="https://calsaquatics.com/card.html">
-  <meta property="og:image" content="https://calsaquatics.com/images/og-image.jpg">
+  <meta property="og:image" content="https://calsaquatics.com/images/card-og.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Cameron Latimer's business card for Cal's Perfection Aquatics">
   <meta name="twitter:card" content="summary_large_image">
 
   <link rel="preload" href="fonts/baloo-2-latin-800-normal.woff2" as="font" type="font/woff2" crossorigin>
@@ -33,14 +36,21 @@
       <span>Cal's Perfection Aquatics</span>
     </header>
 
-    <section class="bcard-id" aria-labelledby="cardName">
-      <picture>
-        <source type="image/webp" srcset="images/cameron-480.webp">
-        <img class="bcard-photo" src="images/cameron.jpg" alt="Cameron Latimer" width="108" height="108">
-      </picture>
-      <h1 id="cardName" data-owner>Cameron Latimer</h1>
-      <p class="bcard-role">Owner, Cal's Perfection Aquatics</p>
-      <p class="bcard-tag">Aquarium, pond &amp; water feature cleaning in the Spokane area</p>
+    <section class="bcard-flip-wrap" aria-labelledby="cardName">
+      <button type="button" class="bcard-flip" id="flipCard" aria-label="Business card. Tap to flip to the other side.">
+        <span class="flip-inner">
+          <picture class="flip-face flip-front"><source type="image/webp" srcset="images/card-front.webp"><img src="images/card-front.jpg" alt="Front of the business card: Cal's Perfection Aquatics, aquarium, pond and water feature cleaning, calsaquatics.com" width="700" height="400"></picture>
+          <picture class="flip-face flip-back"><source type="image/webp" srcset="images/card-back.webp"><img src="images/card-back.jpg" alt="Back of the business card: Cameron Latimer, Owner, phone, email, website, and a QR code to book" width="700" height="400"></picture>
+        </span>
+      </button>
+      <p class="flip-hint">Tap the card to flip it</p>
+      <div class="bcard-who">
+        <picture><source type="image/webp" srcset="images/cameron-480.webp"><img class="bcard-photo" src="images/cameron.jpg" alt="Cameron Latimer" width="56" height="56"></picture>
+        <div>
+          <h1 id="cardName" data-owner>Cameron Latimer</h1>
+          <p class="bcard-role">Owner, Cal's Perfection Aquatics</p>
+        </div>
+      </div>
     </section>
 
     <nav class="bcard-actions" aria-label="Contact Cameron">
@@ -82,8 +92,9 @@
 
     <button type="button" class="bcard-share" id="shareBtn">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12M7 8l5-5 5 5"/><path d="M5 13v6a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6"/></svg>
-      Share this card
+      <span>Share this card</span>
     </button>
+    <a class="bcard-save-img" href="images/cameron-card-share.jpg" download="Cameron Latimer - Cal's Perfection Aquatics.jpg">Save the card as a picture</a>
   </main>
 
   <div class="qr-full" id="qrFull" role="dialog" aria-modal="true" aria-label="QR code" hidden>

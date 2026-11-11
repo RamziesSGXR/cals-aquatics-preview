@@ -194,3 +194,6 @@ body.admin { background: var(--clear); padding-bottom: 96px; }
 @media (max-width: 760px) { .phone-setup { grid-template-columns: 1fr; } }
 /* when opened from the home-screen icon, leave room for the phone's status bar */
 @media (display-mode: standalone) { .admin-top { padding-top: env(safe-area-inset-top); } }
+.top-link-card { background: var(--coral); border-color: var(--coral); color: var(--on-coral); }
+.top-link-card:hover { background: var(--coral-hover); color: var(--on-coral); }
+@media (max-width: 420px) { .admin-top .top-link[href="./"] { display: none; } }

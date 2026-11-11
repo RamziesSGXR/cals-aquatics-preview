@@ -51,4 +51,8 @@
       <image:loc>https://calsaquatics.com/images/cameron-on-the-job.jpg</image:loc>
     </image:image>
   </url>
+  <url>
+    <loc>https://calsaquatics.com/book.html</loc>
+    <lastmod>2026-11-10</lastmod>
+  </url>
 </urlset>

@@ -15,6 +15,8 @@ This copy is hidden from Google on purpose (every page has a `noindex` tag) so i
 |---|---|
 | `index.html` | Home: animated tank hero, services, how it works, recent work gallery, meet Cameron, availability calendar, game, FAQ, request form |
 | `about.html` | Cameron's story, quick facts, what he works on, service area |
+| `book.html` | Just the availability calendar and request form, for QR codes and "book now" links |
+| `card.html` | Cameron's digital business card: call/text/email, Save contact, and a QR code (book or save contact) that goes full screen for showing people. Also linked as **My card** in the dashboard |
 | `admin.html` | Owner dashboard (sign-in required once Firebase is connected) |
 | `home/` | Redirects the old Google Sites `/home` link to the new homepage |
 
@@ -65,6 +67,12 @@ To test it yourself before handing it over, add your own Google address to **bot
 **Is the config safe to publish in a public repo?** Yes. Firebase web config identifies the project; it isn't a password. The security rules are what block everyone except the owner from writing. There are no passwords or secret keys anywhere in this repo.
 
 **Cost:** the free Spark plan covers this easily. Each page view does 2 small database reads, each request is 1 write, and the free tier allows tens of thousands of each per day.
+
+## Business card and QR codes
+
+- **Digital card:** https://calsaquatics.com/card.html. Cameron can open it from the **My card** button in his dashboard, or add it to his home screen. Tapping the QR code fills the screen and keeps it from dimming.
+- **QR codes** live in `images/qr/`: `book.svg` / `book-print.png` open the booking page, and `contact.svg` / `contact-print.png` save his contact. The `-print.png` files are high resolution for business cards, flyers, or the truck banner. They point to `http://` addresses so they work whether or not HTTPS is switched on (GitHub sends people to the secure version automatically).
+- **Contact file:** `cameron.vcf` (with his photo). If his phone, email, or photo changes, this file and the contact QR need regenerating; the buttons on the card update from the dashboard on their own.
 
 ## Get alerts for new requests
 
@@ -148,7 +156,9 @@ Services, the FAQ, the "how it works" steps, and the service-area city list live
 ## Files
 
 ```
-index.html, about.html, admin.html, 404.html, home/
+index.html, about.html, book.html, card.html, admin.html, 404.html, home/
+cameron.vcf          contact file (Save contact)
+images/qr/           QR codes for booking and contact, plus print versions
 dashboard.webmanifest  lets the dashboard be added to a phone's home screen as an app
 css/site.css         site styles
 css/admin.css        dashboard styles
@@ -156,6 +166,7 @@ js/config.js         Firebase settings, owner email list, request alerts
 js/defaults.js       default content used until the owner saves changes
 js/store.js          loads and saves content and requests (Firebase or preview mode)
 js/notify.js         email and phone alerts for new requests
+js/card.js           business card: QR switch, full screen, share
 js/calendar.js       availability math shared by the calendar and dashboard
 js/tank.js           the animated tank
 js/game.js           the tank-cleaning game

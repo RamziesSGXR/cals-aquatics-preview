@@ -521,3 +521,7 @@ h3 { font-size: 19px; font-weight: 700; line-height: 1.2; }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { transition-duration: .01ms !important; animation-duration: .01ms !important; }
 }
+
+/* ---------------- booking page ---------------- */
+.book-first { border-top: 0; padding-top: clamp(28px, 4vw, 44px); }
+.book-title { font-size: clamp(32px, 4.4vw, 46px); font-weight: 800; }

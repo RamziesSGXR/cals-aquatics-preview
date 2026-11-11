@@ -72,6 +72,7 @@ To test it yourself before handing it over, add your own Google address to **bot
 
 - **Digital card:** https://calsaquatics.com/card.html. Cameron can open it from the **My card** button in his dashboard, or add it to his home screen. Tapping the QR code fills the screen and keeps it from dimming.
 - **QR codes** live in `images/qr/`: `book.svg` / `book-print.png` open the booking page, and `contact.svg` / `contact-print.png` save his contact. The `-print.png` files are high resolution for business cards, flyers, or the truck banner. They point to `http://` addresses so they work whether or not HTTPS is switched on (GitHub sends people to the secure version automatically).
+- **Printed business cards** live in `print/`: `CPA-business-card-print-shop.pdf` (front + back, 3.5×2 in with 0.125 in bleed, ready for Vistaprint, a local print shop, etc.) and `CPA-business-cards-print-at-home.pdf` (10 per Letter page for perforated card stock like Avery 8371/5371; print page 1, flip the sheet, print page 2). The design source is `print/business-card.html`; re-render with `node print/render.js <folder>`.
 - **Contact file:** `cameron.vcf` (with his photo). If his phone, email, or photo changes, this file and the contact QR need regenerating; the buttons on the card update from the dashboard on their own.
 
 ## Get alerts for new requests

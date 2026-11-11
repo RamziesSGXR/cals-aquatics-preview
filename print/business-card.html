@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Cal's Perfection Aquatics business card (print source)</title>
+<meta name="robots" content="noindex">
+<!--
+  Print source for the business card. Standard US card: 3.5in x 2in trim,
+  with 0.125in bleed on every side (3.75in x 2.25in pages). Keep text inside
+  the safe area, 0.25in from the page edge. Rendered to PDF/PNG with a
+  headless browser; open in a browser to preview.
+-->
+<style>
+  @font-face { font-family: "Baloo 2"; src: url("../fonts/baloo-2-latin-700-normal.woff2") format("woff2"); font-weight: 700; }
+  @font-face { font-family: "Baloo 2"; src: url("../fonts/baloo-2-latin-800-normal.woff2") format("woff2"); font-weight: 800; }
+  @font-face { font-family: "Figtree"; src: url("../fonts/figtree-latin-400-normal.woff2") format("woff2"); font-weight: 400; }
+  @font-face { font-family: "Figtree"; src: url("../fonts/figtree-latin-600-normal.woff2") format("woff2"); font-weight: 600; }
+
+  @page { size: 3.75in 2.25in; margin: 0; }
+  :root { --deep: #062a33; --ink: #0c2f37; --ink-soft: #46646b; --teal: #0e7372; --foam: #eaf6f4; --aqua: #9fe0d6; --coral: #f2714b; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { background: #fff; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+
+  /* One card face, bleed included */
+  .face { position: relative; width: 3.75in; height: 2.25in; overflow: hidden; break-after: page; font-family: "Figtree", sans-serif; }
+
+  /* ---------- front ---------- */
+  .front {
+    color: var(--foam);
+    background:
+      radial-gradient(circle at 84% 22%, rgba(234,246,244,.22) 0 .035in, transparent .04in),
+      radial-gradient(circle at 79% 33%, rgba(234,246,244,.16) 0 .055in, transparent .06in),
+      radial-gradient(circle at 88% 40%, rgba(234,246,244,.12) 0 .025in, transparent .03in),
+      radial-gradient(circle at 12% 70%, rgba(234,246,244,.12) 0 .04in, transparent .045in),
+      radial-gradient(130% 90% at 50% -10%, #146479 0%, var(--deep) 62%);
+  }
+  .front .waves { position: absolute; left: 0; right: 0; bottom: 0; width: 100%; height: .62in; }
+  .front .center { position: absolute; inset: .25in; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
+  .front .logo { width: .7in; height: .7in; margin-bottom: .06in; filter: drop-shadow(0 0 .06in rgba(79, 216, 255, .45)); }
+  .front .name { font: 800 15.5pt/1 "Baloo 2", sans-serif; letter-spacing: -.01em; }
+  .front .tag { margin-top: .05in; font: 600 7.4pt/1.25 "Figtree", sans-serif; color: var(--aqua); }
+  .front .site { margin-top: .07in; font: 600 7pt/1 "Figtree", sans-serif; color: rgba(234,246,244,.8); letter-spacing: .02em; }
+
+  /* ---------- back ---------- */
+  .back { background: #fff; color: var(--ink); }
+  .back .accent { position: absolute; left: 0; top: 0; bottom: 0; width: .3in; background: var(--deep); }
+  .back .accent::after { content: ""; position: absolute; right: 0; top: 0; bottom: 0; width: .03in; background: var(--coral); }
+  .back .content { position: absolute; top: .25in; bottom: .25in; left: .47in; right: .25in; display: grid; grid-template-columns: 1fr 1.02in; gap: .14in; align-items: center; }
+  .back .who { font: 800 13pt/1 "Baloo 2", sans-serif; }
+  .back .role { margin-top: .03in; font: 600 7pt/1.2 "Figtree", sans-serif; color: var(--teal); }
+  .back .biz { font: 600 6.6pt/1.2 "Figtree", sans-serif; color: var(--ink-soft); margin-top: .01in; }
+  .back .lines { margin-top: .1in; display: grid; gap: .045in; }
+  .back .line { display: grid; grid-template-columns: .13in 1fr; align-items: center; gap: .04in; font: 600 7.3pt/1.15 "Figtree", sans-serif; white-space: nowrap; }
+  .back .line.small { font-size: 6.4pt; }
+  .back .line svg { width: .1in; height: .1in; color: var(--teal); }
+  .back .area { margin-top: .08in; font: 400 6.2pt/1.25 "Figtree", sans-serif; color: var(--ink-soft); }
+  .back .qr { text-align: center; }
+  .back .qr-box { position: relative; width: 1.02in; height: 1.02in; }
+  .back .qr-box > img:first-child { width: 100%; height: 100%; display: block; }
+  .back .qr-logo { position: absolute; left: 50%; top: 50%; width: .2in; height: .2in; transform: translate(-50%, -50%); border-radius: 50%; background: #fff; box-shadow: 0 0 0 .025in #fff; }
+  .back .qr-cap { margin-top: .03in; font: 800 7.6pt/1 "Baloo 2", sans-serif; color: var(--deep); }
+  .back .qr-sub { margin-top: .015in; font: 400 5.6pt/1.15 "Figtree", sans-serif; color: var(--ink-soft); }
+
+  /* ---------- 10-up home print sheet (Avery 8371 / 5371 layout) ---------- */
+  .sheet { width: 8.5in; height: 11in; padding: .5in .75in; display: grid; grid-template-columns: repeat(2, 3.5in); grid-auto-rows: 2in; break-after: page; }
+  .sheet .slot { width: 3.5in; height: 2in; overflow: hidden; position: relative; }
+  .sheet .slot .face { position: absolute; left: -.125in; top: -.125in; break-after: auto; }
+</style>
+</head>
+<body>
+
+<template id="front">
+  <section class="face front">
+    <svg class="waves" viewBox="0 0 375 62" preserveAspectRatio="none" aria-hidden="true">
+      <path d="M0 30 C 60 14, 120 44, 188 28 S 310 14, 375 30 L375 62 L0 62Z" fill="rgba(234,246,244,.06)"/>
+      <path d="M0 42 C 70 30, 130 56, 200 42 S 320 30, 375 44 L375 62 L0 62Z" fill="rgba(234,246,244,.07)"/>
+    </svg>
+    <div class="center">
+      <img class="logo" src="../images/logo-512.png" alt="">
+      <div class="name">Cal's Perfection Aquatics</div>
+      <div class="tag">Aquarium, pond &amp; water feature cleaning</div>
+      <div class="site">calsaquatics.com</div>
+    </div>
+  </section>
+</template>
+
+<template id="back">
+  <section class="face back">
+    <div class="accent"></div>
+    <div class="content">
+      <div>
+        <div class="who">Cameron Latimer</div>
+        <div class="role">Owner</div>
+        <div class="biz">Cal's Perfection Aquatics</div>
+        <div class="lines">
+          <div class="line"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/></svg>(509) 828-9399</div>
+          <div class="line small"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m4 7 8 6 8-6"/></svg>calsperfectionaquatics@gmail.com</div>
+          <div class="line"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg>calsaquatics.com</div>
+        </div>
+        <div class="area">Serving Spokane, Spokane Valley, Coeur d'Alene &amp; nearby</div>
+      </div>
+      <div class="qr">
+        <div class="qr-box">
+          <img src="../images/qr/book.svg" alt="">
+          <img class="qr-logo" src="../images/logo-128.png" alt="">
+        </div>
+        <div class="qr-cap">Scan to book</div>
+        <div class="qr-sub">Free consultation</div>
+      </div>
+    </div>
+  </section>
+</template>
+
+<div id="out"></div>
+<script>
+  // ?sheet=front | ?sheet=back renders a 10-up Letter sheet; default renders front + back with bleed.
+  const mode = new URLSearchParams(location.search).get("sheet");
+  const out = document.getElementById("out");
+  const face = (id) => document.getElementById(id).content.firstElementChild.cloneNode(true);
+  if (mode === "front" || mode === "back") {
+    const page = document.createElement("style");
+    page.textContent = "@page { size: 8.5in 11in; margin: 0; }";
+    document.head.append(page);
+    const sheet = document.createElement("div");
+    sheet.className = "sheet";
+    for (let i = 0; i < 10; i++) {
+      const slot = document.createElement("div");
+      slot.className = "slot";
+      slot.append(face(mode));
+      sheet.append(slot);
+    }
+    out.append(sheet);
+  } else {
+    out.append(face("front"), face("back"));
+  }
+</script>
+</body>
+</html>
